@@ -7,4 +7,8 @@ environment:
   sdk: ">=0.8.10"
 dependencies:
   polymer: ">=0.8.10"
+dev_dependencies:
+  hop: "0.27.0"
+  unittest: ">=0.8.10"
+  bot_test: any
 
