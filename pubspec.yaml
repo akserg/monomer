@@ -1,8 +1,10 @@
 name: monomer
 version: 0.1.0
-author: Sergey Akopkokhyants
-description: A Monomer is next generation of Dart Web Tookit ported to Polymer library.
+author: Sergey Akopkokhyants <akserg@gmail.com>
+description: A Monomer is a set of data centric UI components that may bind to other components to form a Polymer.
 homepage: https://github.com/akserg/monomer
+environment:
+  sdk: ">=0.8.10"
 dependencies:
-  browser: ">= 0.8.1"
-  polymer: ">= 0.8.1"
+  polymer: ">=0.8.10"
+
