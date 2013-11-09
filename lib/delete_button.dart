@@ -14,10 +14,27 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library monomer_delete_button;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag;
+import 'post_button.dart';
+import 'component.dart';
+
+/**
+ * Delete
+ */
+@CustomTag('m-delete-button')
+class DeleteButton extends PostButton with Polymer, Observable, Component {
+  
+  /******************
+   * Initialisation *
+   ******************/
+  
+  /**
+   * Constructor instantiated by the DOM when a DeleteButton element has been created.
+   */
+  DeleteButton.created() : super.created() {
+    confirm = true;
+    confirmMessage = "Do You want to delete the item?";
+  }
 }

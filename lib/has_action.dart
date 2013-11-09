@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library monomer_has_action;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+/**
+ * Interface marks [Component] can do some action.
+ */
+abstract class HasAction {
+  
+  /**
+   * Do action with optional [data].
+   */
+  Function doAction;
 }

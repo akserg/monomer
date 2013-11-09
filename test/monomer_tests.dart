@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library monomer;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+/**
+ * Unit testing for Monomer library.
+ */
+
+import 'package:polymer/polymer.dart';
+import 'package:unittest/unittest.dart';
+import 'package:unittest/html_enhanced_config.dart';
+import 'package:monomer/button.dart';
+import 'dart:html';
+
+part 'tests/button_tests.dart';
+
+void main() {
+  print('Running unit tests for Monomer library.');
+  initPolymer();
+  useHtmlEnhancedConfiguration();
+  group('All Tests:', (){
+  	test('button', () => buttonTests());
+  });
 }

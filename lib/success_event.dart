@@ -14,10 +14,23 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library monomer_success_event;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+import 'dart:html';
+
+/**
+ * This event dispatches to inform about success of HttpRequest 
+ */
+class SuccessEvent extends CustomEvent {
+  
+  static const String SUCCESS = "success";
+  
+  /**
+   * Create new instance of [SuccessEvent].
+   */
+  factory SuccessEvent(HttpRequest request, sendData, 
+      {bool canBubble: true, bool cancelable: true}) {
+    return new CustomEvent(SUCCESS, canBubble:canBubble, cancelable:cancelable, 
+        detail:{'request':request, 'data':sendData});
+  }
 }

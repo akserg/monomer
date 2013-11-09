@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library monomer_has_data;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+/**
+ * Interface marks [Component] might has a data.
+ */
+abstract class HasData {
+  
+  /**
+   * Arbitrary information.
+   */
+  dynamic data;
 }

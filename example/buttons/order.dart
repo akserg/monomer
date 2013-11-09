@@ -14,10 +14,32 @@
  * limitations under the License.
  */
 
-import 'package:polymer/builder.dart';
+library example_order;
 
-main(args) {
-	build(entryPoints: [
-  	'example/buttons/index.html'
-  ], options: parseOptions(args));
+/*
+ * This is Order from order list.
+ */
+class Order {
+  
+  /**
+   * Order id.
+   */
+  int id;
+  
+  /**
+   * Order name.
+   */
+  String name;
+  
+  /**
+   * Create an instance of Order.
+   */
+  Order([this.id, this.name]);
+  
+  /**
+   * Convert Order to JSON String
+   */
+  String toJson() {
+    return "{id:$id, name:$name}";
+  }
 }
