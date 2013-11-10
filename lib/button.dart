@@ -16,12 +16,12 @@
 
 library monomer_button;
 
-import 'dart:html' show ButtonElement, Event;
+import 'dart:html' show ButtonElement, Event, EventStreamProvider, ElementStream, CustomEvent;
 import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag, observable, published;
 
-import 'component.dart';
-import 'has_action.dart';
-import 'has_data.dart';
+import 'src/component.dart';
+import 'src/has_action.dart';
+import 'src/has_data.dart';
 
 /**
  * Base class for all Action Buttons. 
@@ -29,28 +29,36 @@ import 'has_data.dart';
 @CustomTag('m-button')
 class Button extends ButtonElement with Polymer, Observable, Component, HasAction, HasData {
   
+  /*************
+   * Constants *
+   *************/
+  
+  /**
+   * Provider of 'action' events.
+   */
+  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>('action');
+  
   /**************
    * Properties *
    **************/
   
-  /**
-   * Do action with optional [data].
-   */
-  @published
-  Function doAction;
+  bool get applyAuthorStyles => true;
   
   /**
-   * Flag obligates to send data with action.
-   */
-  @published
-  bool sendData = false;
-  
-  /**
-   * Arbitrary information.
+   * Arbitrary information stored in Button.
    */
   @published
   @observable
   dynamic data;
+  
+  /**********
+   * Events *
+   **********/
+  
+  /**
+   * Stream of 'action' events handled by this Button.
+   */
+  ElementStream<Event> get onAction => _actionEvent.forElement(this);
   
   /******************
    * Initialisation *
@@ -61,7 +69,6 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    * created.
    */
   Button.created():super.created() {
-    addClasses(this, "button");
     // Listen click event to do the action
     onClick.listen(onClickHandler);
   }
@@ -76,12 +83,6 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    */
   void onClickHandler(Event e) {
     cancelEvent(e);
-    if (doAction != null) {
-      if (sendData) {
-        doAction(data);
-      } else {
-        doAction();
-      }
-    }
+    dispatchEvent(new CustomEvent('action', detail:data));
   }
 }

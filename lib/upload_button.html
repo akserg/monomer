@@ -15,15 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<html>
-  <head>
-    <title>Unit Tests for Monomer Library</title>
-    <link rel="import" href="packages/monomer/button.html">
-    <link rel="import" href="packages/monomer/post_button.html">
-  </head>
-  <body>
-    <script type="text/javascript" src="packages/unittest/test_controller.js"></script>
-    <script type="text/javascript" src="packages/browser/dart.js"></script>
-    <script type="application/dart" src="monomer_tests.dart"></script>
-  </body>
-</html>
+<link rel="import" href="post_button.html">
+
+<polymer-element name="m-upload-button" extends="m-post-button">
+  <template>
+    <content></content>
+  </template>
+  <script type="application/dart" src="upload_button.dart"></script>
+</polymer-element>

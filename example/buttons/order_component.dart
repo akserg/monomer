@@ -18,7 +18,8 @@ library example_order_component;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'package:monomer/component.dart';
+import 'package:monomer/src/component.dart';
+import 'package:monomer/src/has_data.dart';
 
 import 'order.dart';
 
@@ -28,6 +29,8 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
 	/*************
    * Properties
    ************/
+  
+  bool get applyAuthorStyles => true;
   
   @observable
   ObservableList orderItems;
@@ -63,12 +66,31 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
     orderItems = items;
   }
   
-  void onSuccess(CustomEvent e) {
-    print('success ${e.detail}}');
+  /**
+   * Action EVent handler.
+   */
+  void onAction(CustomEvent event) {
+    print('action ${event.target}. Data is: ${event.detail}');
+    if (event.target is HasData) {
+      print('Data is ${(event.target as HasData).data}');
+    }
   }
   
-  void onFault(Event e) {
-    print('fault $e');
+  /**
+   * Success EVent handler.
+   */
+  void onSuccess(CustomEvent event) {
+    print('success ${event.target}: ${event.detail}');
+    if (event.target is HasData) {
+      print('Data is ${(event.target as HasData).data}');
+    }
+  }
+  
+  /**
+   * Fault Event handler.
+   */
+  void onFault(CustomEvent event) {
+    print('fault ${event.target}: ${event.detail}');
   }
 }
 

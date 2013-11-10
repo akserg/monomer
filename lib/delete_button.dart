@@ -18,7 +18,7 @@ library monomer_delete_button;
 
 import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag;
 import 'post_button.dart';
-import 'component.dart';
+import 'src/component.dart';
 
 /**
  * Delete

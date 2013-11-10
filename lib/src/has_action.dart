@@ -24,5 +24,5 @@ abstract class HasAction {
   /**
    * Do action with optional [data].
    */
-  Function doAction;
+  Function action;
 }

@@ -16,14 +16,12 @@
 
 library monomer_post_button;
 
-import 'dart:html';
+import 'dart:html' show Button, EventListener, Event, window, HttpRequest, EventStreamProvider, ElementStream, CustomEvent;
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert' show JSON;
 import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag, observable, published;
 import 'button.dart';
-import 'component.dart';
-import 'success_event.dart';
-import 'ajax.dart';
+import 'src/component.dart';
 
 /**
  * PostButton helps make AJAX POST request when user click on the button. 
@@ -34,28 +32,24 @@ import 'ajax.dart';
 @CustomTag('m-post-button')
 class PostButton extends Button with Polymer, Observable, Component {
   
+  /*************
+   * Constants *
+   *************/
+  
+  /**
+   * Provider of 'success' events.
+   */
+  static const EventStreamProvider<Event> _successEvent = const EventStreamProvider<Event>('success');
+  
+  /**
+   * Provider of 'fault' events.
+   */
+  static const EventStreamProvider<Event> _faultEvent = const EventStreamProvider<Event>('fault');
+  
   /**************
    * Properties *
    **************/
 
-  /**
-   * Execute that function after success result returns back.
-   */
-  @published
-  EventListener onSuccess;
-  
-  /**
-   * Execute that function after fault result returns back.
-   */
-  @published
-  EventListener onFault;
-  
-  /**
-   * Progress event listener.
-   */
-  @published
-  EventListener onProgress;
-  
   /**
    * [String] telling the server the desired response format.
    *
@@ -119,6 +113,20 @@ class PostButton extends Button with Polymer, Observable, Component {
   @published
   dynamic mergeData;
   
+  /**********
+   * Events *
+   **********/
+  
+  /**
+   * Stream of 'success' events handled by this PostButton.
+   */
+  ElementStream<Event> get onSuccess => _successEvent.forElement(this);
+  
+  /**
+   * Stream of 'fault' events handled by this PostButton.
+   */
+  ElementStream<Event> get onFault => _faultEvent.forElement(this);
+  
   /******************
    * Initialisation *
    ******************/
@@ -166,15 +174,20 @@ class PostButton extends Button with Polymer, Observable, Component {
         dataToSend.addAll(mergeData);
       }
       
-      // Send data if dataToSend has 'toJson' method
-      if (isSerializable(dataToSend)) {
-        HttpRequest.request(url, method:'POST', withCredentials:withCredentials, 
-            responseType:responseType, mimeType:mimeType, 
-            requestHeaders:requestHeaders, sendData:JSON.encode(dataToSend), 
-            onProgress:onProgress).then((HttpRequest request) {
-              onSuccess(new SuccessEvent(request, dataToSend));
-            }, onError:onFault);
-      }
+      // Send data
+      HttpRequest.request(url, 
+          method:'POST', 
+          withCredentials:withCredentials, 
+          responseType:responseType, 
+          mimeType:mimeType, 
+          requestHeaders:requestHeaders, 
+          sendData:JSON.encode(dataToSend))
+      ..catchError((Event error){
+        dispatchEvent(new CustomEvent('fault', detail:error));
+      })
+      ..then((HttpRequest request) {
+        dispatchEvent(new CustomEvent('success', detail:request));
+      });
     }
   }
 }

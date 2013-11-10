@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-part of monomer;
+part of monomer_tests;
 
 void buttonTests() {
   logMessage('Performing button tests.');
@@ -32,26 +32,59 @@ void buttonTests() {
       button.remove();
     });
     
-    test('Do Action without send data', () {
-      logMessage('Expect call doAction when user click on button');
+    test('Do Action with data', () {
+      logMessage('Expect call action method when user click on button');
       
-      button.doAction = ([data = null]) {
-        logMessage('Called doAction with out data send data');
-        expect(data, isNull);
-      };
+      button.data = dataToSend;
+      
+      button.onAction.listen((event) {
+        logMessage('Called action method');
+        expect(event, new isInstanceOf<CustomEvent>());
+      });
+      
+      logMessage('Click on button');
+      button.dispatchEvent(new MouseEvent('click'));
+    });
+  });
+}
+
+void postButtonTests() {
+  logMessage('Performing POST button tests.');
+
+  group('Testing POST button:', () {
+    PostButton button;
+    var dataToSend = {'id':1, 'name':'Test Name'};
+    
+    setUp((){
+      button = new Element.tag('button', 'm-post-button');
+      document.body.append(button);
+    });
+    
+    tearDown((){
+      button.remove();
+    });
+    
+    test('Do Action with data', () {
+      logMessage('Expect call action method when user click on POST button');
+      
+      button.data = dataToSend;
+      
+      button.onAction.listen((event) {
+        logMessage('Called action method');
+        expect(event, new isInstanceOf<CustomEvent>());
+      });
       
       logMessage('Click on button');
       button.dispatchEvent(new MouseEvent('click'));
     });
     
-    test('Do Action with send data', () {
-      logMessage('Expect call doAction when user click on button');
+    test('POST data', (){
+      logMessage('Expect call action method when user click on POST button');
       
-      button.sendData = true;
       button.data = dataToSend;
       
-      button.doAction = ([data = null]) {
-        logMessage('Called doAction with send data');
+      button.action = (data) {
+        logMessage('Called action method');
         expect(data, equals(dataToSend));
       };
       
