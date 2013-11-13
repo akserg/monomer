@@ -1,23 +1,11 @@
-/**
- * Copyright (C) 2013 Sergey Akopkokhyants. All rights reserved.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2013, akserg (Sergey Akopkokhyants)
+// https://github.com/akserg/monomer
+// All rights reserved.  Please see the LICENSE.md file.
 
 library monomer_button;
 
-import 'dart:html' show ButtonElement, Event, EventStreamProvider, ElementStream, CustomEvent;
-import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag, observable, published;
+import 'dart:html';
+import 'package:polymer/polymer.dart';
 
 import 'src/component.dart';
 import 'src/has_action.dart';
@@ -33,10 +21,22 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    * Constants *
    *************/
   
+  static const String ACTION_EVENT = 'action';
+  
   /**
    * Provider of 'action' events.
    */
-  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>('action');
+  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>(ACTION_EVENT);
+  
+  /**
+   * Provider of 'visible' events.
+   */
+  static const EventStreamProvider<Event> _visibleEvent = const EventStreamProvider<Event>(Component.VISIBLE_EVENT);
+  
+  /**
+   * Provider of 'includeInLayout' events.
+   */
+  static const EventStreamProvider<Event> _includeInLayoutEvent = const EventStreamProvider<Event>(Component.INCLUDE_IN_LAYOUT_EVENT);
   
   /**************
    * Properties *
@@ -60,9 +60,27 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    */
   ElementStream<Event> get onAction => _actionEvent.forElement(this);
   
+  /**
+   * Stream of 'visible' events handled by this Button.
+   */
+  ElementStream<Event> get onVisible => _visibleEvent.forElement(this);
+  
+  /**
+   * Stream of 'includeInLayout' events handled by this Button.
+   */
+  ElementStream<Event> get onIncludeInLayout => _includeInLayoutEvent.forElement(this);
+  
+  
   /******************
    * Initialisation *
    ******************/
+  
+  /**
+   * Default factory constructor.
+   */
+  factory Button() {
+    return new Element.tag('button', 'm-button');
+  }
   
   /**
    * Constructor instantiated by the DOM when a Action Button element has been 
@@ -83,6 +101,6 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    */
   void onClickHandler(Event e) {
     cancelEvent(e);
-    dispatchEvent(new CustomEvent('action', detail:data));
+    dispatchEvent(new CustomEvent(ACTION_EVENT, detail:data));
   }
 }

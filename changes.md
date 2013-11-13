@@ -1,12 +1,22 @@
 Monomer Changes
 ===============
 
+** November 13, 2013
+
+* Test fixed.
+* Changed text references to license text in code.
+
+** November 11, 2013
+
+* Monomer has new [home](http://monomer.akserg.com).
+* Added Bootstrap styles and images to example. 
+
 ** November 10, 2013
 
-* Reimplemented inter communication methods between components.
+* Redesigned communication methods between components.
 * Implemented UploadButton.
 * Added example of PostButton, DeleteButton and UploadButton.
-* Added server to examples for test.
+* Server added to example.
 
 ** November 9, 2013
 

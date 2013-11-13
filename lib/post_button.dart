@@ -1,25 +1,13 @@
-/**
- * Copyright (C) 2013 Sergey Akopkokhyants. All rights reserved.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2013, akserg (Sergey Akopkokhyants)
+// https://github.com/akserg/monomer
+// All rights reserved.  Please see the LICENSE.md file.
 
 library monomer_post_button;
 
-import 'dart:html' show Button, EventListener, Event, window, HttpRequest, EventStreamProvider, ElementStream, CustomEvent;
+import 'dart:html';
 import 'dart:async';
-import 'dart:convert' show JSON;
-import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag, observable, published;
+import 'dart:convert';
+import 'package:polymer/polymer.dart';
 import 'button.dart';
 import 'src/component.dart';
 
@@ -130,6 +118,13 @@ class PostButton extends Button with Polymer, Observable, Component {
   /******************
    * Initialisation *
    ******************/
+  
+  /**
+   * Default factory constructor.
+   */
+  factory PostButton() {
+    return new Element.tag('button', 'm-post-button');
+  }
   
   /**
    * Constructor instantiated by the DOM when a PostButton element has been 

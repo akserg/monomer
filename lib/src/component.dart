@@ -1,23 +1,11 @@
-/**
- * Copyright (C) 2013 Sergey Akopkokhyants. All rights reserved.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2013, akserg (Sergey Akopkokhyants)
+// https://github.com/akserg/monomer
+// All rights reserved.  Please see the LICENSE.md file.
 
 library monomer_component;
 
-import 'dart:html' show Element, CustomEvent, Event, EventTarget;
-import 'dart:async' show Duration, Timer;
+import 'dart:html';
+import 'dart:async';
 
 /**
  * The base mixin class for the majority of user-interface objects. 
@@ -28,10 +16,8 @@ abstract class Component {
    * CONSTANTS
    **********/
   
-  static const String SHOW_EVENT = "show";
-  static const String HIDE_EVENT = "hide";
   static const String VISIBLE_EVENT = "visible";
-  static const String HIDDEN_EVENT = "hidden";
+  static const String INCLUDE_IN_LAYOUT_EVENT = "includeInLayout";
   
   /**************
    * Visibility *
@@ -47,7 +33,7 @@ abstract class Component {
     if (value != isVisible(element)) {
       element.style.display = value ? '' : 'none';
       element.attributes['aria-hidden'] = (!value).toString();
-      element.dispatchEvent(new CustomEvent(value ? SHOW_EVENT : HIDE_EVENT));
+      element.dispatchEvent(new CustomEvent(VISIBLE_EVENT, detail:value));
     }
   }
   
@@ -56,6 +42,21 @@ abstract class Component {
    */
   bool isVisible(Element element) {
     return element.style.display != 'none'; 
+  }
+
+  /**
+   * Whether or not the display object is inclide in layout on page.
+   */
+  void setIncludeInLayout(Element element, bool value) {
+    element.style.visibility = value ? 'visible' : 'hidden';
+    element.dispatchEvent(new CustomEvent(INCLUDE_IN_LAYOUT_EVENT, detail:value));
+  }
+
+  /**
+   * Check is [element] inluded in layuout on page.
+   */
+  bool isIncludeInLayout(Element element) {
+    return element.style.visibility == 'visible'; 
   }
   
   /**********

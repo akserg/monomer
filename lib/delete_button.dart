@@ -1,22 +1,11 @@
-/**
- * Copyright (C) 2013 Sergey Akopkokhyants. All rights reserved.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2013, akserg (Sergey Akopkokhyants)
+// https://github.com/akserg/monomer
+// All rights reserved.  Please see the LICENSE.md file.
 
 library monomer_delete_button;
 
-import 'package:polymer/polymer.dart' show Polymer, Observable, CustomTag;
+import 'dart:html';
+import 'package:polymer/polymer.dart';
 import 'post_button.dart';
 import 'src/component.dart';
 
@@ -29,6 +18,13 @@ class DeleteButton extends PostButton with Polymer, Observable, Component {
   /******************
    * Initialisation *
    ******************/
+  
+  /**
+   * Default factory constructor.
+   */
+  factory DeleteButton() {
+    return new Element.tag('button', 'm-delete-button');
+  }
   
   /**
    * Constructor instantiated by the DOM when a DeleteButton element has been created.

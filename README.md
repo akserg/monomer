@@ -1,11 +1,9 @@
-Monomer
-=======
+Monomer  [![Build Status](https://drone.io/github.com/akserg/monomer/status.png)](https://drone.io/github.com/akserg/monomer/latest)
+=============
 
 A Monomer is a set of data centric UI components that may bind to other components to form a Polymer.
 
-[![Build Status](https://drone.io/github.com/akserg/monomer/status.png)](https://drone.io/github.com/akserg/monomer/latest)
-
-* [Home](https://github.com/akserg/monomer)
+* [Home](http://monomer.akserg.com)
 * [Issues](https://github.com/akserg/monomer/issues)
 
 ##License

@@ -1,18 +1,6 @@
-/**
- * Copyright (C) 2013 Sergey Akopkokhyants. All rights reserved.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2013, akserg (Sergey Akopkokhyants)
+// https://github.com/akserg/monomer
+// All rights reserved.  Please see the LICENSE.md file.
 
 library dumprendertree;
 
@@ -21,11 +9,20 @@ library dumprendertree;
  */
 
 import 'package:hop/hop.dart';
+import 'package:hop/hop_tasks.dart';
 import 'dart:io';
 import 'dart:async';
 
 main(List<String> args) {
   addTask('test', createUnitTestTask());
+
+  final paths = ['web/out/index.html_bootstrap.dart'];
+  addTask('dart2js', createDartCompilerTask(paths,
+      minify: true, liveTypeAnalysis: true));
+
+  addTask('dart2js', createDartCompilerTask(['web/game_web.dart'],
+      minify: true, liveTypeAnalysis: true));
+
   runHop(args);
 }
 

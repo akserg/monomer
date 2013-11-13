@@ -1,5 +1,5 @@
 name: monomer
-version: 0.1.1
+version: 0.1.2
 author: Sergey Akopkokhyants <akserg@gmail.com>
 description: A Monomer is a set of data centric UI components that may bind to other components to form a Polymer.
 homepage: https://github.com/akserg/monomer
@@ -12,3 +12,6 @@ dev_dependencies:
   hop: 0.27.0
   bot_test: any
   unittest: '>=0.8.10+10 <2.0.0'
+transformers:
+- polymer:
+    entry_points: web/index.html
