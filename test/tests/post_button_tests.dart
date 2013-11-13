@@ -4,15 +4,15 @@
 
 part of monomer_tests;
 
-void buttonTests() {
-  logMessage('Performing button tests.');
+void postButtonTests() {
+  logMessage('Performing POST button tests.');
 
-  group('Testing button:', () {
-    Button button;
+  group('Testing POST button:', () {
+    PostButton button;
     var dataToSend = {'id':1, 'name':'Test Name'};
     
     setUp((){
-      button = new Button();
+      button = new PostButton();
       document.body.append(button);
     });
     
@@ -40,7 +40,7 @@ void buttonTests() {
       
       button.onVisible.listen((event) {
         logMessage('Handle Visible Event');
-        expect(event, new isInstanceOf<CustomEvent>());
+        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
         // Check the state
         bool visible = (event as CustomEvent).detail;
         if (visible) {
@@ -61,7 +61,7 @@ void buttonTests() {
       
       button.onIncludeInLayout.listen((event) {
         logMessage('Handle IncludeInLayout Event');
-        expect(event, new isInstanceOf<CustomEvent>());
+        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
         // Check the state
         bool visibility = (event as CustomEvent).detail;
         if (visibility) {

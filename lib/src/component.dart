@@ -29,7 +29,7 @@ abstract class Component {
    * When setting to [true], the object dispatches a [show] event.
    * When setting to [false], the object dispatches a [hide] event. 
    */
-  void setVisible(Element element, bool value) {
+  static void setVisible(Element element, bool value) {
     if (value != isVisible(element)) {
       element.style.display = value ? '' : 'none';
       element.attributes['aria-hidden'] = (!value).toString();
@@ -40,14 +40,14 @@ abstract class Component {
   /**
    * Check is [element] visible.
    */
-  bool isVisible(Element element) {
+  static bool isVisible(Element element) {
     return element.style.display != 'none'; 
   }
 
   /**
    * Whether or not the display object is inclide in layout on page.
    */
-  void setIncludeInLayout(Element element, bool value) {
+  static void setIncludeInLayout(Element element, bool value) {
     element.style.visibility = value ? 'visible' : 'hidden';
     element.dispatchEvent(new CustomEvent(INCLUDE_IN_LAYOUT_EVENT, detail:value));
   }
@@ -55,7 +55,7 @@ abstract class Component {
   /**
    * Check is [element] inluded in layuout on page.
    */
-  bool isIncludeInLayout(Element element) {
+  static bool isIncludeInLayout(Element element) {
     return element.style.visibility == 'visible'; 
   }
   
@@ -73,7 +73,7 @@ abstract class Component {
    *  - [SelectElement],
    *  - [TextAreaElement]. 
    */
-  void setEnabled(element, bool value) {
+  static void setEnabled(element, bool value) {
     assert(element != null);
     assert(value != null);
     // We can only disable element from [_INPUT_ELEMENTS] list of types.
@@ -87,7 +87,7 @@ abstract class Component {
   /**
    * Either [element] enabled.
    */
-  bool isEnabled(element) {
+  static bool isEnabled(element) {
     assert(element != null);
     if (_INPUT_ELEMENTS.contains(element.tagName)) {
       return !element.disabled;
@@ -101,7 +101,7 @@ abstract class Component {
   /**
    * Add [classes] to [element] with optional [prefix].
    */
-  void addClasses(Element element, String classes, [String prefix = '']) {
+  static void addClasses(Element element, String classes, [String prefix = '']) {
     if (classes != null) {
       element.classes.add(prefix + classes);
     }
@@ -110,7 +110,7 @@ abstract class Component {
   /**
    * Remove [classes] from [element] with optional [prefix].
    */
-  void removeClasses(Element element, String classes, [String prefix = '']) {
+  static void removeClasses(Element element, String classes, [String prefix = '']) {
     if (classes != null) {
       element.classes.remove(prefix + classes);
     }
@@ -119,7 +119,7 @@ abstract class Component {
   /**
    * Swap [oldClasses] classes of [elemenet] to [newClasses] with optional [prefix].
    */
-  void swapClasses(Element element, String oldClasses, String newClasses, [String prefix = '']) {
+  static void swapClasses(Element element, String oldClasses, String newClasses, [String prefix = '']) {
     removeClasses(element, oldClasses, prefix);
     addClasses(element, newClasses, prefix);
   }
@@ -127,7 +127,7 @@ abstract class Component {
   /**
    * Togle [classes] depends on [value] of [element] with optional [prefix].
    */
-  void toggleClasses(Element element, bool value, String classes, [String prefix = '']) {
+  static void toggleClasses(Element element, bool value, String classes, [String prefix = '']) {
     if (value) {
       addClasses(element, classes, prefix);
     } else {
@@ -138,7 +138,7 @@ abstract class Component {
   /**
    * Clear classes of [element].
    */
-  void clearClasses(Element element) {
+  static void clearClasses(Element element) {
     element.classes.clear();
   }
   

@@ -101,6 +101,8 @@ class PostButton extends Button with Polymer, Observable, Component {
   @published
   dynamic mergeData;
   
+  HttpRequest request;
+  
   /**********
    * Events *
    **********/

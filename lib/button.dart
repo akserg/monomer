@@ -48,7 +48,6 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    * Arbitrary information stored in Button.
    */
   @published
-  @observable
   dynamic data;
   
   /**********

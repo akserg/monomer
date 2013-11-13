@@ -3,8 +3,9 @@ Monomer Changes
 
 ** November 13, 2013
 
-* Test fixed.
+* Test run fixed.
 * Changed text references to license text in code.
+* Added all tests for Button, PostButton, DeleteButton and UploadButton.
 
 ** November 11, 2013
 
