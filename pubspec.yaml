@@ -1,8 +1,8 @@
 name: monomer
-version: 0.1.4
+version: 0.1.5
 author: Sergey Akopkokhyants <akserg@gmail.com>
 description: Monomer is a Polymer library that enables web applications to do more with data.
-homepage: https://github.com/akserg/monomer
+homepage: http://monomer.akserg.com/
 environment:
   sdk: '>=0.8.10+10 <2.0.0'
 dependencies:
