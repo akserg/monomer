@@ -7,7 +7,7 @@ library monomer_delete_button;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'post_button.dart';
-import 'src/component.dart';
+import 'component.dart';
 
 /**
  * Delete

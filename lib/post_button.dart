@@ -9,7 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:polymer/polymer.dart';
 import 'button.dart';
-import 'src/component.dart';
+import 'component.dart';
 
 /**
  * PostButton helps make AJAX POST request when user click on the button. 
@@ -25,14 +25,9 @@ class PostButton extends Button with Polymer, Observable, Component {
    *************/
   
   /**
-   * Provider of 'success' events.
-   */
-  static const EventStreamProvider<Event> _successEvent = const EventStreamProvider<Event>('success');
-  
-  /**
    * Provider of 'fault' events.
    */
-  static const EventStreamProvider<Event> _faultEvent = const EventStreamProvider<Event>('fault');
+  static const EventStreamProvider<Event> _faultEvent = const EventStreamProvider<Event>(Component.FAULT_EVENT);
   
   /**************
    * Properties *
@@ -108,11 +103,6 @@ class PostButton extends Button with Polymer, Observable, Component {
    **********/
   
   /**
-   * Stream of 'success' events handled by this PostButton.
-   */
-  ElementStream<Event> get onSuccess => _successEvent.forElement(this);
-  
-  /**
    * Stream of 'fault' events handled by this PostButton.
    */
   ElementStream<Event> get onFault => _faultEvent.forElement(this);
@@ -180,10 +170,10 @@ class PostButton extends Button with Polymer, Observable, Component {
           requestHeaders:requestHeaders, 
           sendData:JSON.encode(dataToSend))
       ..catchError((Event error){
-        dispatchEvent(new CustomEvent('fault', detail:error));
+        dispatchEvent(new CustomEvent(Component.FAULT_EVENT, detail:error));
       })
       ..then((HttpRequest request) {
-        dispatchEvent(new CustomEvent('success', detail:request));
+        dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:request));
       });
     }
   }

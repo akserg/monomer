@@ -13,16 +13,13 @@ import 'dart:async';
 
 import 'package:polymer/polymer.dart';
 import 'package:unittest/unittest.dart';
-import 'package:unittest/mock.dart';
 import 'package:unittest/html_enhanced_config.dart';
 
-import 'package:monomer/src/component.dart';
+import 'package:monomer/component.dart';
 import 'package:monomer/button.dart';
 import 'package:monomer/post_button.dart';
 import 'package:monomer/delete_button.dart';
 import 'package:monomer/upload_button.dart';
-
-part 'tests/mock_http_request.dart';
 
 part 'tests/button_tests.dart';
 part 'tests/post_button_tests.dart';

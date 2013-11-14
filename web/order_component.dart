@@ -6,8 +6,7 @@ library example_order_component;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'package:monomer/src/component.dart';
-import 'package:monomer/src/has_data.dart';
+import 'package:monomer/component.dart';
 
 import 'order.dart';
 
@@ -66,8 +65,8 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
    */
   void onAction(CustomEvent event) {
     print('action ${event.target}. Data is: ${event.detail}');
-    if (event.target is HasData) {
-      print('Data is ${(event.target as HasData).data}');
+    if (event.target is Component) {
+      print('Data is ${(event.target as Component).data}');
     }
   }
   
@@ -76,8 +75,8 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
    */
   void onSuccess(CustomEvent event) {
     print('success ${event.target}: ${event.detail}');
-    if (event.target is HasData) {
-      print('Data is ${(event.target as HasData).data}');
+    if (event.target is Component) {
+      print('Data is ${(event.target as Component).data}');
     }
   }
   

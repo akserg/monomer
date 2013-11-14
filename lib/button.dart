@@ -7,26 +7,22 @@ library monomer_button;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
-import 'src/component.dart';
-import 'src/has_action.dart';
-import 'src/has_data.dart';
+import 'component.dart';
 
 /**
  * Base class for all Action Buttons. 
  */
 @CustomTag('m-button')
-class Button extends ButtonElement with Polymer, Observable, Component, HasAction, HasData {
+class Button extends ButtonElement with Polymer, Observable, Component {
   
   /*************
    * Constants *
    *************/
   
-  static const String ACTION_EVENT = 'action';
-  
   /**
    * Provider of 'action' events.
    */
-  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>(ACTION_EVENT);
+  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>(Component.ACTION_EVENT);
   
   /**
    * Provider of 'visible' events.
@@ -100,6 +96,6 @@ class Button extends ButtonElement with Polymer, Observable, Component, HasActio
    */
   void onClickHandler(Event e) {
     cancelEvent(e);
-    dispatchEvent(new CustomEvent(ACTION_EVENT, detail:data));
+    dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:data));
   }
 }

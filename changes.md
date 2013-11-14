@@ -1,6 +1,12 @@
 Monomer Changes
 ===============
 
+** November 14, 2013
+
+* Properties of HasData and HasAction classes moved into Component class.
+* Classes HasData and HasAction removed.
+* Cleaned code, changed tests.
+
 ** November 13, 2013
 
 * Test run fixed.

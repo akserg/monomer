@@ -16,8 +16,10 @@ abstract class Component {
    * CONSTANTS
    **********/
   
+  static const String ACTION_EVENT = 'action';
   static const String VISIBLE_EVENT = "visible";
   static const String INCLUDE_IN_LAYOUT_EVENT = "includeInLayout";
+  static const String FAULT_EVENT = 'fault';
   
   /**************
    * Visibility *
@@ -206,4 +208,13 @@ abstract class Component {
      */
     e.stopPropagation();
   }
+  
+  /******** 
+   * Data *
+   ********/
+  
+  /**
+   * Arbitrary information.
+   */
+  dynamic data;
 }

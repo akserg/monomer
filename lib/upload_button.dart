@@ -8,7 +8,7 @@ import 'dart:html';
 import 'dart:convert';
 import 'package:polymer/polymer.dart';
 import 'post_button.dart';
-import 'src/component.dart';
+import 'component.dart';
 
 /**
  * Delete
