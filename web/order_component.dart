@@ -31,7 +31,7 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
    * Default factory constructor.
    */
   factory OrderComponent() {
-    return new Element.tag('button', 'e-order');
+    return new Element.tag('div', 'e-order');
   }
   
   /**
@@ -65,16 +65,6 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
    */
   void onAction(CustomEvent event) {
     print('action ${event.target}. Data is: ${event.detail}');
-    if (event.target is Component) {
-      print('Data is ${(event.target as Component).data}');
-    }
-  }
-  
-  /**
-   * Success EVent handler.
-   */
-  void onSuccess(CustomEvent event) {
-    print('success ${event.target}: ${event.detail}');
     if (event.target is Component) {
       print('Data is ${(event.target as Component).data}');
     }

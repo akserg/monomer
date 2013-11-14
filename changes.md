@@ -6,6 +6,7 @@ Monomer Changes
 * Properties of HasData and HasAction classes moved into Component class.
 * Classes HasData and HasAction removed.
 * Cleaned code, changed tests.
+* Fixed OrderComponent from example.
 
 ** November 13, 2013
 
