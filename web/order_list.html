@@ -10,7 +10,7 @@ All rights reserved.  Please see the LICENSE.md file.
 <link rel="import" href="packages/monomer/delete_button.html">
 <link rel="import" href="packages/monomer/upload_button.html">
 
-<polymer-element name="e-order" extends="div">
+<polymer-element name="e-order-list" extends="div">
   <template>
     <ul>
     <template repeat="{{item in orderItems}}">
@@ -18,12 +18,12 @@ All rights reserved.  Please see the LICENSE.md file.
         <span>{{item.id}}</span>
         <span>{{item.name}}</span>
         <button is="m-button" data="{{item}}" on-action="{{onAction}}" class="btn btn-default">Action</button>
-        <button is="m-post-button" data="{{item}}" url="http://127.0.0.1:4040/order/update" on-success="{{onSuccess}}" on-fault="{{onFault}}" class="btn btn-primary">Update</button>
-        <button is="m-delete-button" data="{{item}}" url="http://127.0.0.1:4040/order/delete" on-success="{{onSuccess}}" on-fault="{{onFault}}" class="btn btn-success">Delete</button>
-        <button is="m-upload-button" data="{{item}}" url="http://127.0.0.1:4040/order/upload" on-success="{{onSuccess}}" on-fault="{{onFault}}" class="btn btn-danger">Upload file</button>
+        <button is="m-post-button" data="{{item}}" url="http://127.0.0.1:4040/order/update" on-action="{{onAction}}" on-fault="{{onFault}}" class="btn btn-primary">Update</button>
+        <button is="m-delete-button" data="{{item}}" url="http://127.0.0.1:4040/order/delete" on-action="{{onAction}}" on-fault="{{onFault}}" class="btn btn-success">Delete</button>
+        <button is="m-upload-button" data="{{item}}" url="http://127.0.0.1:4040/order/upload" on-action="{{onAction}}" on-fault="{{onFault}}" class="btn btn-danger">Upload file</button>
       </li>
     </template>
     </ul>
   </template>
-  <script type="application/dart" src="order_component.dart"></script>
+  <script type="application/dart" src="order_list.dart"></script>
 </polymer-element>

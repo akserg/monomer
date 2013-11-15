@@ -20,6 +20,7 @@ abstract class Component {
   static const String VISIBLE_EVENT = "visible";
   static const String INCLUDE_IN_LAYOUT_EVENT = "includeInLayout";
   static const String FAULT_EVENT = 'fault';
+  static const String VALIDATE_EVENT = 'validate';
   
   /**************
    * Visibility *

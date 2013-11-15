@@ -10,7 +10,7 @@ import 'post_button.dart';
 import 'component.dart';
 
 /**
- * Delete
+ * DeleteButton is PostButton with confitm message.
  */
 @CustomTag('m-delete-button')
 class DeleteButton extends PostButton with Polymer, Observable, Component {

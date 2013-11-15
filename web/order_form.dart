@@ -2,7 +2,7 @@
 // https://github.com/akserg/monomer
 // All rights reserved.  Please see the LICENSE.md file.
 
-library example_order_component;
+library example_order_form;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
@@ -10,10 +10,10 @@ import 'package:monomer/component.dart';
 
 import 'order.dart';
 
-@CustomTag('e-order')
-class OrderComponent extends DivElement with Polymer, Observable, Component {
+@CustomTag('e-order-form')
+class OrderForm extends DivElement with Polymer, Observable, Component {
 
-	/*************
+  /*************
    * Properties
    ************/
   
@@ -30,15 +30,15 @@ class OrderComponent extends DivElement with Polymer, Observable, Component {
   /**
    * Default factory constructor.
    */
-  factory OrderComponent() {
-    return new Element.tag('button', 'e-order');
+  factory OrderForm() {
+    return new Element.tag('div', 'e-order-form');
   }
   
   /**
    * Constructor instantiated by the DOM when a OrderComponent has been 
    * created.
    */
-  OrderComponent.created():super.created();
+  OrderForm.created():super.created();
   
   void ready() {
     super.ready();

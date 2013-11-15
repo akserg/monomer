@@ -1,6 +1,12 @@
 Monomer Changes
 ===============
 
+** November 15, 2013
+
+* Created FormItem.
+* Created Validator, StringValidator, NumberValidator and RegExpValidator
+* Added tests and examples.
+
 ** November 14, 2013
 
 * Properties of HasData and HasAction classes moved into Component class.
