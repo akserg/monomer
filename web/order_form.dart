@@ -71,16 +71,6 @@ class OrderForm extends DivElement with Polymer, Observable, Component {
   }
   
   /**
-   * Success EVent handler.
-   */
-  void onSuccess(CustomEvent event) {
-    print('success ${event.target}: ${event.detail}');
-    if (event.target is Component) {
-      print('Data is ${(event.target as Component).data}');
-    }
-  }
-  
-  /**
    * Fault Event handler.
    */
   void onFault(CustomEvent event) {
