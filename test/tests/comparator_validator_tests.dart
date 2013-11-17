@@ -24,7 +24,7 @@ void comparatorValidatorTests() {
       //
       validator = new ComparatorValidator();
       validator.validate = "#input1";
-      validator.compare = "#input2";
+      validator.compareTo = "#input2";
       document.body.append(validator);
     });
     
