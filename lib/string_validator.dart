@@ -59,7 +59,7 @@ class StringValidator extends Validator with Polymer, Observable, Component {
    * Default factory constructor.
    */
   factory StringValidator() {
-    return new Element.tag('div', 'm-string-validator');
+    return new Element.tag('span', 'm-string-validator');
   }
   
   /**
@@ -85,12 +85,12 @@ class StringValidator extends Validator with Polymer, Observable, Component {
    * Developer must overrid [doValidate] rather then [validate] method.
    */
   @override
-  List<String> doValidate(String value, List<String> results) {
+  List<String> doValidate(dynamic value, List<String> results) {
     List<String> res = super.doValidate(value, results);
     print('String.doValidate $res');
     // Return if there are errors or if the required property is set to false 
     // and length is 0.
-    String val = value == null ? "" : value;
+    String val = value == null ? "" : value.toString();
     
     if (res.length > 0 || ((val.length == 0) && !required)) {
       print('Back because is required');

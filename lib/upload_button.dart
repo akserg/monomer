@@ -138,7 +138,7 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
   @override
   void onClickHandler(Event e) {
     // Confirm action if necessary
-    if (confirm) {
+    if (confirmMessage != null && confirmMessage.trim().length > 0) {
       if (!window.confirm(confirmMessage)) {
         return;
       }

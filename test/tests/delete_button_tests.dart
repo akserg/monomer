@@ -14,7 +14,7 @@ void deleteButtonTests() {
     setUp((){
       button = new DeleteButton();
       // Suppress comform warning
-      button.confirm = false;
+      button.confirmMessage = null;
       document.body.append(button);
     });
     

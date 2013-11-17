@@ -4,15 +4,15 @@
 
 part of monomer_tests;
 
-void postButtonTests() {
-  logMessage('Performing POST button tests.');
+void formTests() {
+  logMessage('Performing button tests.');
 
-  group('Testing POST button:', () {
-    PostButton button;
+  group('Testing button:', () {
+    Button button;
     var dataToSend = {'id':1, 'name':'Test Name'};
     
     setUp((){
-      button = new PostButton();
+      button = new Button();
       document.body.append(button);
     });
     
@@ -40,7 +40,7 @@ void postButtonTests() {
       
       button.onVisible.listen((event) {
         logMessage('Handle Visible Event');
-        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
+        expect(event, new isInstanceOf<CustomEvent>());
         // Check the state
         bool visible = (event as CustomEvent).detail;
         if (visible) {
@@ -61,7 +61,7 @@ void postButtonTests() {
       
       button.onIncludeInLayout.listen((event) {
         logMessage('Handle IncludeInLayout Event');
-        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
+        expect(event, new isInstanceOf<CustomEvent>());
         // Check the state
         bool visibility = (event as CustomEvent).detail;
         if (visibility) {
@@ -76,50 +76,5 @@ void postButtonTests() {
       logMessage('Include button in layout');
       Component.setIncludeInLayout(button, true);
     });
-    
-    test('Do POST Action', () {
-      logMessage('Expect call POST action method when user click on button');
-
-      AjaxMock ajax = new AjaxMock();
-      ajax.data = dataToSend;
-      
-      button.data = dataToSend;
-      button.url = "dummy";
-      button.ajax = ajax;
-      
-      button.onAction.listen((event) {
-        logMessage('Handle Action Event');
-        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
-        expect(event.type, equals('action'), reason:'must be action event type');
-        expect(event.detail, equals(dataToSend), reason:'must return sent data');
-      });
-      
-      logMessage('Click on button');
-      button.dispatchEvent(new MouseEvent('click'));
-    });
-    
-//    test('Do POST Error Action', () {
-//      logMessage('Expect call POST Erro action method when user click on button');
-//
-//      AjaxMock ajax = new AjaxErrorMock();
-//      ajax.data = dataToSend;
-//      
-//      button.data = dataToSend;
-//      button.url = "dummy";
-//      button.ajax = ajax;
-//      
-//      button.onFault.listen((event){
-//        logMessage('Handle Error Event');
-//        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
-//        expect(event.type, equals('fault'), reason:'must be fault event type');
-//        expect(event.detail, new isInstanceOf<HttpRequest>(), reason:'must be HttpRequest event type');
-//        HttpRequest request = event.detail;
-//        expect(request.status, equals(404), reason:'must return 404');
-//      });
-//      
-//      logMessage('Click on button');
-//      button.dispatchEvent(new MouseEvent('click'));
-//    });
-    
   });
 }

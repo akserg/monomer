@@ -1,6 +1,14 @@
 Monomer Changes
 ===============
 
+** November 17, 2013
+
+* Created Ajax component to help Mock POST request.
+* Created Form, ComparatorValidator components.
+* Created Transformer utility class with ToInt, ToDouble, ToBool, ToUpperCase, ToLowerCase transformers.
+* Created User value object, OrderForm renamed to UserForm.
+* Added ComporatorValidatorTests, FormTests.
+
 ** November 15, 2013
 
 * Created FormItem.

@@ -14,7 +14,7 @@ void uploadButtonTests() {
     setUp((){
       button = new UploadButton();
       // Suppress comform warning
-      button.confirm = false;
+      button.confirmMessage = null;
       document.body.append(button);
     });
     

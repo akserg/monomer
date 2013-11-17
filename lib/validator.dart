@@ -13,7 +13,7 @@ import 'component.dart';
  * The component contauns base validation mechanism.
  */
 @CustomTag('m-validator')
-class Validator extends DivElement with Polymer, Observable, Component {
+class Validator extends SpanElement with Polymer, Observable, Component {
 
   /*************
    * Constants *
@@ -35,7 +35,7 @@ class Validator extends DivElement with Polymer, Observable, Component {
   
   /**
    * Reference to element to be validated. Can be any value acceptable by 
-   * 'query[elector] method.
+   * [querySelector] method.
    */
   @published
   String validate;
@@ -93,13 +93,15 @@ class Validator extends DivElement with Polymer, Observable, Component {
    * Default factory constructor.
    */
   factory Validator() {
-    return new Element.tag('div', 'm-validator');
+    return new Element.tag('span', 'm-validator');
   }
   
   /**
    * Constructor instantiated by the DOM when a Validator element has been created.
    */
-  Validator.created():super.created();
+  Validator.created():super.created() {
+    dataset['validator'] = 'true';
+  }
   
   /**
    * Add validation to [validate] element.
@@ -119,9 +121,9 @@ class Validator extends DivElement with Polymer, Observable, Component {
     Element element = this.parent.querySelector(validate);
     if (element != null) {
       print('addValidationTo as $element');
-      element.onBlur.listen(_validate);
-      element.onChange.listen(_validate);
-      element.onKeyUp.listen(_validate);
+      element.onBlur.listen(validate_);
+      element.onChange.listen(validate_);
+      element.onKeyUp.listen(validate_);
     }
   }
   
@@ -130,22 +132,34 @@ class Validator extends DivElement with Polymer, Observable, Component {
    ***********/
   
   /**
-   * Validate [value] and return result of validation as list of messages.
-   * Empty list means value is valid.
+   * Runs validation process from Form or other external sources.
    */
-  void _validate(Event e) {
+  bool isValid() {
+    Element element = this.parent.querySelector(validate);
+    if (element != null) {
+      print('Check is $element valid');
+      return validate_(null);
+    }
+  }
+  
+  /**
+   * Blur, Change and KeyUp Events handler. Return result of validation.
+   */
+  bool validate_(Event e) {
     List<String> result = [];
+    bool valid = true;
     // Check is element has asseptable type
-    dynamic element = e.target;
-    print('_validate is $element');
+    //dynamic element = e.target;
+    dynamic element = this.parent.querySelector(validate);
+    print('validate_ is $element');
     if (element is InputElement ||
         element is SelectElement ||
         element is TextAreaElement) {
-      String value = element.value;
+      dynamic value = element.value;
       print('value is $value');
       // Is validation enabled?
       if (enabled) {
-        if (required && (value == null || value.length == 0)) {
+        if (required && (value == null || value.toString().length == 0)) {
           // Do 'required' validation
           result.add(requiredError);
           print('required $result');
@@ -156,16 +170,18 @@ class Validator extends DivElement with Polymer, Observable, Component {
       }
       // Display validation result
       validationResult = toObservable(result);
-      // Dispatch Validation Event.
-      dispatchEvent(new CustomEvent(Component.VALIDATE_EVENT, detail:(result.length == 0)));
+      valid = result.length == 0;
     }
+    // Dispatch Validation Event.
+    dispatchEvent(new CustomEvent(Component.VALIDATE_EVENT, detail:(valid)));
+    return valid;
   }
   
   /**
    * This is convinient method to do specifica validation.
    * Developer must overrid [doValidate] rather then [validate] method.
    */
-  List<String> doValidate(String value, List<String> results) {
+  List<String> doValidate(dynamic value, List<String> results) {
     print('doValidate');
     return results;
   }

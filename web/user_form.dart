@@ -6,12 +6,14 @@ library example_order_form;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
+import 'package:polymer_expressions/filter.dart';
 import 'package:monomer/component.dart';
+import 'package:monomer/transformer.dart';
 
-import 'order.dart';
+import 'user.dart';
 
-@CustomTag('e-order-form')
-class OrderForm extends DivElement with Polymer, Observable, Component {
+@CustomTag('e-user-form')
+class UserForm extends DivElement with Polymer, Observable, Component {
 
   /*************
    * Properties
@@ -20,7 +22,12 @@ class OrderForm extends DivElement with Polymer, Observable, Component {
   bool get applyAuthorStyles => true;
   
   @observable
-  ObservableList orderItems;
+  User user;
+  
+  /**
+   * ToInt transformer
+   */
+  final Transformer toInt = new ToInt();
 
   
   /******************
@@ -30,15 +37,15 @@ class OrderForm extends DivElement with Polymer, Observable, Component {
   /**
    * Default factory constructor.
    */
-  factory OrderForm() {
-    return new Element.tag('div', 'e-order-form');
+  factory UserForm() {
+    return new Element.tag('div', 'e-user-form');
   }
   
   /**
-   * Constructor instantiated by the DOM when a OrderComponent has been 
+   * Constructor instantiated by the DOM when a UserForm has been 
    * created.
    */
-  OrderForm.created():super.created();
+  UserForm.created():super.created();
   
   void ready() {
     super.ready();
@@ -53,11 +60,12 @@ class OrderForm extends DivElement with Polymer, Observable, Component {
    * Immitation of loading data.
    */
   void loadData() {
-    List items = toObservable([]);
-    for (int i = 0; i < 5; i++) {
-      items.add(new Order(i, "Order N$i"));
-    }
-    orderItems = items;
+    user = new User(1, 
+        name:'John',
+        lastName:'Smith',
+        age:30,
+        email:'john.smith@gmail.com'
+      );
   }
   
   /**

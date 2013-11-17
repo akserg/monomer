@@ -10,7 +10,7 @@ import 'post_button.dart';
 import 'component.dart';
 
 /**
- * DeleteButton is PostButton with confitm message.
+ * DeleteButton is PostButton with confirmation message.
  */
 @CustomTag('m-delete-button')
 class DeleteButton extends PostButton with Polymer, Observable, Component {
@@ -30,7 +30,6 @@ class DeleteButton extends PostButton with Polymer, Observable, Component {
    * Constructor instantiated by the DOM when a DeleteButton element has been created.
    */
   DeleteButton.created() : super.created() {
-    confirm = true;
     confirmMessage = "Do You want to delete the item?";
   }
 }

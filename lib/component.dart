@@ -19,6 +19,7 @@ abstract class Component {
   static const String ACTION_EVENT = 'action';
   static const String VISIBLE_EVENT = "visible";
   static const String INCLUDE_IN_LAYOUT_EVENT = "includeInLayout";
+  static const String SUCCESS_EVENT = 'success';
   static const String FAULT_EVENT = 'fault';
   static const String VALIDATE_EVENT = 'validate';
   
@@ -192,7 +193,7 @@ abstract class Component {
   void cancelEvent(Event e) {
     EventTarget t = e.target;
     // We still dispathching events of [InputELement] 
-    if (t != null && t is Element && t.nodeName == 'input')
+    if (t != null && t is InputElement)
       return;
 
     /**

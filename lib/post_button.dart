@@ -8,8 +8,10 @@ import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
 import 'package:polymer/polymer.dart';
+
 import 'button.dart';
 import 'component.dart';
+import 'ajax.dart';
 
 /**
  * PostButton helps make AJAX POST request when user click on the button. 
@@ -73,16 +75,15 @@ class PostButton extends Button with Polymer, Observable, Component {
   dynamic postData;
   
   /**
+   * Result of POST request.
+   */
+  dynamic result;
+  
+  /**
    * URL of POST request.
    */
   @published
   String url;
-  
-  /**
-   * Flag to trigger confirm message.
-   */
-  @published
-  bool confirm = false;
   
   /**
    * Message to confirm the action.
@@ -96,7 +97,10 @@ class PostButton extends Button with Polymer, Observable, Component {
   @published
   dynamic mergeData;
   
-  HttpRequest request;
+  /**
+   * Instance of AJAX manager.
+   */
+  Ajax ajax = new Ajax();
   
   /**********
    * Events *
@@ -136,7 +140,7 @@ class PostButton extends Button with Polymer, Observable, Component {
   @override
   void onClickHandler(Event e) {
     // Confirm action if necessary
-    if (confirm) {
+    if (confirmMessage != null && confirmMessage.trim().length > 0) {
       if (!window.confirm(confirmMessage)) {
         return;
       }
@@ -162,18 +166,18 @@ class PostButton extends Button with Polymer, Observable, Component {
       }
       
       // Send data
-      HttpRequest.request(url, 
-          method:'POST', 
-          withCredentials:withCredentials, 
-          responseType:responseType, 
-          mimeType:mimeType, 
-          requestHeaders:requestHeaders, 
+      ajax.post(url, 
+          withCredentials:withCredentials ,
+          responseType:responseType , 
+          mimeType:mimeType , 
+          requestHeaders:requestHeaders , 
           sendData:JSON.encode(dataToSend))
-      ..catchError((Event error){
-        dispatchEvent(new CustomEvent(Component.FAULT_EVENT, detail:error));
+      ..catchError((error){
+        dispatchEvent(new CustomEvent(Component.FAULT_EVENT, detail:error.target));
       })
-      ..then((HttpRequest request) {
-        dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:request));
+      ..then((request) {
+        result = JSON.decode(request.responseText);
+        dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:result));
       });
     }
   }

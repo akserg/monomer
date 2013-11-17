@@ -94,10 +94,10 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
   
   /**
    * Error message when the value exceeds the [maxValue] property.
-   * By default equals "The number entered is too large."
+   * By default equals "The number entered is too large then maximum value {maxValue}."
    */
   @published
-  String exceedsMaxError = "The number entered is too large.";
+  String exceedsMaxError = "The number entered is too large then maximum value {maxValue}.";
   
   /**
    * Error message when the number must be an integer, as defined by the 
@@ -128,10 +128,10 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
   /**
    * Error message when the value is less than [minValue].
    *
-   * By default it equals "The number entered is too small."
+   * By default it equals "The number entered is too small then minimum value {minValue}."
    */
   @published
-  String lowerThanMinError = "The number entered is too small.";
+  String lowerThanMinError = "The number entered is too small then minimum value {minValue}.";
   
   /**
    * Error message when the value is negative and the [allowNegative] 
@@ -146,10 +146,10 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * Error message when the value has a precision that exceeds the value defined 
    *  by the precision property.
    *
-   *  By "default" it equals "The number entered has too many digits beyond the decimal point."
+   *  By "default" it equals "The number entered has too many digits beyond the decimal point {precision}."
    */
   @published
-  String precisionError = "The number entered has too many digits beyond the decimal point.";
+  String precisionError = "The number entered has too many digits beyond the decimal point {precision}.";
   
   /**
    * Error message when the thousands separator is in the wrong location.
@@ -167,7 +167,7 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * Default factory constructor.
    */
   factory NumberValidator() {
-    return new Element.tag('div', 'm-number-validator');
+    return new Element.tag('span', 'm-number-validator');
   }
   
   /**
@@ -194,12 +194,12 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * Developer must overrid [doValidate] rather then [validate] method.
    */
   @override
-  List<String> doValidate(String value, List<String> results) {
+  List<String> doValidate(dynamic value, List<String> results) {
     List<String> res = super.doValidate(value, results);
-    print('String.doValidate $res');
+    print('Number.doValidate $res');
     // Return if there are errors or if the required property is set to false 
     // and length is 0.
-    String val = value == null ? "" : value;
+    String val = value == null ? "" : value.toString();
     
     if (res.length > 0 || ((val.length == 0) && !required)) {
       print('Back because is required');
@@ -214,7 +214,7 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * item for each field examined by the validator.
    */
   List<String> _validateNumber(String value) {
-    print('_validateNumber');
+    print('_validateNumber $value');
     List<String> results = [];
     
     int len = value.length;
@@ -310,7 +310,7 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
 
         // Make sure precision is not exceeded.
         if (precision != -1 && numDigitsAfterDecimal > precision) {
-          results.add(precisionError);
+          results.add(substitute(precisionError, '{precision}', precision));
           return results;
         }
       }
@@ -376,12 +376,12 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
           x = -x;
 
       if (minValue != null && x < minValue) {
-        results.add(lowerThanMinError);
+        results.add(substitute(lowerThanMinError, '{minValue}', minValue));
         return results;
       }
             
       if (maxValue != null && x > maxValue) {
-        results.add(exceedsMaxError);
+        results.add(substitute(exceedsMaxError, '{maxValue}', maxValue));
         return results;
       }
     }

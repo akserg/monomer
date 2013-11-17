@@ -51,17 +51,17 @@ class Button extends ButtonElement with Polymer, Observable, Component {
    **********/
   
   /**
-   * Stream of 'action' events handled by this Button.
+   * Stream of 'action' events handled by this element.
    */
   ElementStream<Event> get onAction => _actionEvent.forElement(this);
   
   /**
-   * Stream of 'visible' events handled by this Button.
+   * Stream of 'visible' events handled by this element.
    */
   ElementStream<Event> get onVisible => _visibleEvent.forElement(this);
   
   /**
-   * Stream of 'includeInLayout' events handled by this Button.
+   * Stream of 'includeInLayout' events handled by this element.
    */
   ElementStream<Event> get onIncludeInLayout => _includeInLayoutEvent.forElement(this);
   
