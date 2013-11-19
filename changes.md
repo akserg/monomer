@@ -1,6 +1,11 @@
 Monomer Changes
 ===============
 
+** November 19, 2013
+
+* Created ListBase and Utility classes.
+* Created ListItemRenderer component.
+
 ** November 17, 2013
 
 * Created Ajax component to help Mock POST request.

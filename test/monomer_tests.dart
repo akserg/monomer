@@ -28,6 +28,7 @@ import 'package:monomer/number_validator.dart';
 import 'package:monomer/regexp_validator.dart';
 import 'package:monomer/comparator_validator.dart';
 import 'package:monomer/ajax.dart';
+import 'package:monomer/utility.dart';
 
 part 'mocks/ajax_mock.dart';
 
@@ -40,6 +41,7 @@ part 'tests/string_validator_tests.dart';
 part 'tests/number_validator_tests.dart';
 part 'tests/regexp_validator_tests.dart';
 part 'tests/comparator_validator_tests.dart';
+part 'tests/list_utility_tests.dart';
 
 void main() {
   print('Running unit tests for Monomer library.');
@@ -56,5 +58,7 @@ void main() {
   	test('Number Validator', () => numberValidatorTests());
   	test('RegExp Validator', () => regexpValidatorTests());
   	test('RegExp Validator', () => comparatorValidatorTests());
+  	
+  	test('List Utility', () => listUtilityTests());
   });
 }
