@@ -5,6 +5,7 @@ Monomer Changes
 
 * Updated Listbase. Added ItemRenderer, ItemRendererOwner.
 * Added CheckBoxGroup and CheckBoxItemrenderer.
+* Added tests for Component.
 
 ** November 20, 2013
 

@@ -94,7 +94,7 @@ abstract class Component {
    */
   static bool isEnabled(element) {
     assert(element != null);
-    if (_INPUT_ELEMENTS.contains(element.tagName)) {
+    if (_INPUT_ELEMENTS.contains(element.tagName.toLowerCase())) {
       return !element.disabled;
     }
   }

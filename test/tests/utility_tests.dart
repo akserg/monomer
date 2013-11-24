@@ -4,7 +4,7 @@
 
 part of monomer_tests;
 
-void listUtilityTests() {
+void utilityTests() {
   logMessage('Performing Utility tests.');
 
   group('Testing Utility:', () {

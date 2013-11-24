@@ -32,6 +32,7 @@ import 'package:monomer/utility.dart';
 
 part 'mocks/ajax_mock.dart';
 
+part 'tests/component_tests.dart';
 part 'tests/button_tests.dart';
 part 'tests/post_button_tests.dart';
 part 'tests/delete_button_tests.dart';
@@ -42,13 +43,21 @@ part 'tests/number_validator_tests.dart';
 part 'tests/regexp_validator_tests.dart';
 part 'tests/comparator_validator_tests.dart';
 part 'tests/utility_tests.dart';
+part 'tests/transformer_tests.dart';
+part 'tests/form_tests.dart';
+part 'tests/form_field_tests.dart';
+part 'tests/list_base_tests.dart';
+part 'tests/check_box_group_tests.dart';
+part 'tests/check_box_item_renderer_tests.dart';
 
 void main() {
   print('Running unit tests for Monomer library.');
   initPolymer();
   useHtmlEnhancedConfiguration();
   group('All Tests:', (){
-  	test('button', () => buttonTests());
+    test('Component', () => componentTests());
+    
+  	test('Button', () => buttonTests());
   	test('POST button', () => postButtonTests());
   	test('Delete button', () => deleteButtonTests());
   	test('Upload button', () => uploadButtonTests());
@@ -59,6 +68,13 @@ void main() {
   	test('RegExp Validator', () => regexpValidatorTests());
   	test('RegExp Validator', () => comparatorValidatorTests());
   	
-  	test('List Utility', () => listUtilityTests());
+  	test('Utility', () => utilityTests());
+  	
+//  	test('Transformer', () => transformerTests());
+//  	test('Form', () => formTests());
+//  	test('FormField', () => formFieldTests());
+//  	test('ListBase', () => listBaseTests());
+//  	test('CheckBoxItemRenderer', () => listBaseTests());
+//  	test('CheckBoxGroup', () => listBaseTests());
   });
 }
