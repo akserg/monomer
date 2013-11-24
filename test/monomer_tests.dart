@@ -41,7 +41,7 @@ part 'tests/string_validator_tests.dart';
 part 'tests/number_validator_tests.dart';
 part 'tests/regexp_validator_tests.dart';
 part 'tests/comparator_validator_tests.dart';
-part 'tests/list_utility_tests.dart';
+part 'tests/utility_tests.dart';
 
 void main() {
   print('Running unit tests for Monomer library.');

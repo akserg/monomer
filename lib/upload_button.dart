@@ -43,8 +43,8 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
   @published
   String accept = "*/*";
   acceptChanged(old) {
-    if (fileInput != null) {
-      fileInput.accept = accept;
+    if (_fileInput != null) {
+      _fileInput.accept = accept;
     }
   }
   
@@ -66,8 +66,8 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
   @published
   bool capture =  false;
   captureChanged(old) {
-    if (fileInput != null) {
-      fileInput.attributes['capture'] = capture.toString();
+    if (_fileInput != null) {
+      _fileInput.attributes['capture'] = capture.toString();
     }
   }
   
@@ -85,7 +85,7 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
   /**
    * Get File upload input element.
    */
-  InputElement fileInput;
+  InputElement _fileInput;
   
   /******************
    * Initialisation *
@@ -102,29 +102,29 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
    * Constructor instantiated by the DOM when a UploadButton element has been created.
    */
   UploadButton.created() : super.created() {
-    fileInput = new InputElement();
-    fileInput.type = "file";
+    _fileInput = new InputElement();
+    _fileInput.type = "file";
     //
-    fileInput.accept = accept;
-    fileInput.attributes['capture'] = capture.toString();
+    _fileInput.accept = accept;
+    _fileInput.attributes['capture'] = capture.toString();
     //
-    fileInput.style.left = "-500px";
-    fileInput.style.position = "absolute";
-    fileInput.style.top = "-0px";
+    _fileInput.style.left = "-500px";
+    _fileInput.style.position = "absolute";
+    _fileInput.style.top = "-0px";
     //
-    fileInput.onChange.listen(onFileSelected);
+    _fileInput.onChange.listen(onFileSelected);
   }
 
   void enterView() {
     super.enteredView();
     //
-    this.parent.append(fileInput);
+    this.parent.append(_fileInput);
   }
   
   void leftView() {
     super.leftView();
     //
-    fileInput.remove();
+    _fileInput.remove();
   }
   
   /******************
@@ -145,7 +145,7 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
     }
 
     if (url != null) {
-      fileInput.dispatchEvent(new MouseEvent('click'));
+      _fileInput.dispatchEvent(new MouseEvent('click'));
       cancelEvent(e);
     }
   }
@@ -178,7 +178,7 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
     //
     int i = 0;
     FormData fd = new FormData();
-    for (Iterator<File> iter = fileInput.files.iterator; iter.moveNext();) {
+    for (Iterator<File> iter = _fileInput.files.iterator; iter.moveNext();) {
       fd.append("file${i++}", iter.current.name);
     }
     //

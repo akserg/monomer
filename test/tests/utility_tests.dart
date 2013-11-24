@@ -22,7 +22,7 @@ void listUtilityTests() {
     });
     
     
-    test('Check getValue', () {
+    test('Check getValue of Object', () {
       logMessage('Expect return value from getValue');
       
       _Order order = new _Order(1, "One", new _User("Me"));
@@ -33,10 +33,33 @@ void listUtilityTests() {
       expect(username, equals("Me"), reason:'must be equals Me');
     });
     
-    test('Check setValue', () {
+    test('Check getValue of Map', () {
+      logMessage('Expect return value from getValue');
+      
+      Map order = {'id':"One", 'user':{'username':'Me', 'age':'36'}};
+      String valuePath = "user.username";
+      String username = Utility.getValue(order, valuePath);
+      
+      logMessage('Check result of Utility.getValue');
+      expect(username, equals("Me"), reason:'must be equals Me');
+    });
+    
+    test('Check setValue of Object', () {
       logMessage('Expect set value in setValue');
       
       _Order order = new _Order(1, "One", new _User("Me"));
+      String valuePath = "user.username";
+      Utility.setValue(order, valuePath, "You");
+      String username = Utility.getValue(order, valuePath);
+      
+      logMessage('Check result of Utility.getValue');
+      expect(username, equals("You"), reason:'must be equals You');
+    });
+    
+    test('Check setValue of Map', () {
+      logMessage('Expect set value in setValue');
+      
+      Map order = {'id':"One", 'user':{'username':'Me', 'age':'36'}};
       String valuePath = "user.username";
       Utility.setValue(order, valuePath, "You");
       String username = Utility.getValue(order, valuePath);

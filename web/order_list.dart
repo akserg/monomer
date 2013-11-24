@@ -41,7 +41,6 @@ class OrderList extends DivElement with Polymer, Observable, Component {
   OrderList.created():super.created();
   
   void ready() {
-    super.ready();
     callLater(loadData);
   }
   

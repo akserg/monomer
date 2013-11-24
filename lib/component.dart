@@ -12,9 +12,9 @@ import 'dart:async';
  */
 abstract class Component {
 
-  /***********
-   * CONSTANTS
-   **********/
+  /*************
+   * CONSTANTS *
+   *************/
   
   static const String ACTION_EVENT = 'action';
   static const String VISIBLE_EVENT = "visible";
@@ -22,6 +22,7 @@ abstract class Component {
   static const String SUCCESS_EVENT = 'success';
   static const String FAULT_EVENT = 'fault';
   static const String VALIDATE_EVENT = 'validate';
+  static const String CHANGE_EVENT = 'change';
   
   /**************
    * Visibility *

@@ -2,18 +2,14 @@
 // https://github.com/akserg/monomer
 // All rights reserved.  Please see the LICENSE.md file.
 
-library example_order_form;
+library example_order_lookup;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-import 'package:polymer_expressions/filter.dart';
 import 'package:monomer/component.dart';
-import 'package:monomer/transformer.dart';
 
-import 'user.dart';
-
-@CustomTag('e-user-form')
-class UserForm extends DivElement with Polymer, Observable, Component {
+@CustomTag('e-order-lookup')
+class OrderLookup extends DivElement with Polymer, Observable, Component {
 
   /*************
    * Properties
@@ -22,14 +18,8 @@ class UserForm extends DivElement with Polymer, Observable, Component {
   bool get applyAuthorStyles => true;
   
   @observable
-  User user;
-  
-  /**
-   * ToInt transformer
-   */
-  final Transformer toInt = new ToInt();
+  ObservableList countryItems = toObservable([]);
 
-  
   /******************
    * Initialisation *
    ******************/
@@ -37,15 +27,15 @@ class UserForm extends DivElement with Polymer, Observable, Component {
   /**
    * Default factory constructor.
    */
-  factory UserForm() {
-    return new Element.tag('div', 'e-user-form');
+  factory OrderLookup() {
+    return new Element.tag('div', 'e-order-lookup');
   }
   
   /**
-   * Constructor instantiated by the DOM when a UserForm has been 
+   * Constructor instantiated by the DOM when a OrderLookup has been 
    * created.
    */
-  UserForm.created():super.created();
+  OrderLookup.created():super.created();
   
   void ready() {
     callLater(loadData);
@@ -59,16 +49,16 @@ class UserForm extends DivElement with Polymer, Observable, Component {
    * Immitation of loading data.
    */
   void loadData() {
-    user = new User(1, 
-        name:'John',
-        lastName:'Smith',
-        age:30,
-        email:'john.smith@gmail.com'
-      );
+    //
+    List items = toObservable([]);
+    for (int i = 0; i < 3; i++) {
+      items.add({'label':'N$i', 'value':'$i'});
+    }
+    countryItems = items;
   }
   
   /**
-   * Action EVent handler.
+   * Action Event handler.
    */
   void onAction(CustomEvent event) {
     print('action ${event.target}. Data is: ${event.detail}');
@@ -82,6 +72,14 @@ class UserForm extends DivElement with Polymer, Observable, Component {
    */
   void onFault(CustomEvent event) {
     print('fault ${event.target}: ${event.detail}');
+  }
+  
+  /******************
+   * Event Handlers *
+   ******************/
+  
+  void onContrySelected(CustomEvent event) {
+    print('SelectedCoutries changed: ${event.detail}');
   }
 }
 
