@@ -43,7 +43,7 @@ class CheckboxGroup extends ListBase with Polymer, Observable, Component {
     labelPath = 'label';
     valuePath = 'value';
     valueSeparator = ', ';
-    //itemRenderer = "span.m-checkbox-item-renderer";
+    itemRenderer = "span.m-checkbox";
   }
 
   /**

@@ -67,6 +67,9 @@ void main() {
   group('All Tests:', (){
     test('Component', () => componentTests());
     
+    test('CheckboxGroup', () => checkboxGroupTests());
+    test('ListBase', () => listBaseTests());
+    
   	test('Button', () => buttonTests());
   	test('POST button', () => postButtonTests());
   	test('Delete button', () => deleteButtonTests());
@@ -84,8 +87,7 @@ void main() {
   	test('Form', () => formTests());
   	test('FormField', () => formFieldTests());
   	test('Label', () => labelTests());
-  	test('ListBase', () => listBaseTests());
   	test('Checkbox', () => checkboxTests());
-//  	test('CheckboxGroup', () => checkboxGroupTests());
+  	
   });
 }

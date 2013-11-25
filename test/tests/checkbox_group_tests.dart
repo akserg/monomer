@@ -64,5 +64,16 @@ void checkboxGroupTests() {
       logMessage('Include checkboxGroup in layout');
       Component.setIncludeInLayout(checkboxGroup, true);
     });
+    
+    test('Do use ItemRenderer', () {
+      logMessage('Expect works with ItemRenderer');
+      
+      logMessage('Update dataProvider');
+      checkboxGroup.dataProvider = items;
+      // The duration of 1000ms is enought to take time to redraw our items. 
+      new Timer(new Duration(milliseconds:1000), expectAsync0((){
+        expect(checkboxGroup.listItems.length, 5, reason:'must be equals 5');
+      }));
+    });
   });
 }

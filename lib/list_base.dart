@@ -74,7 +74,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Instance of [ItemRenderer] using to rendering content of items.
    */
   @published
-  String itemRenderer;
+  String itemRenderer = "span.m-label";
   itemRendererChanged(old) {
     print('itemRendererChanged $itemRenderer');
     callLater(updateUI);
