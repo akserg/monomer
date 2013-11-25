@@ -2,7 +2,7 @@
 // https://github.com/akserg/monomer
 // All rights reserved.  Please see the LICENSE.md file.
 
-library monomer_checkbox_item_renderer;
+library monomer_checkbox;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';

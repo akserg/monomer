@@ -83,7 +83,7 @@ void main() {
   	test('Transformer', () => transformerTests());
   	test('Form', () => formTests());
   	test('FormField', () => formFieldTests());
-//  	test('Label', () => labelTests());
+  	test('Label', () => labelTests());
   	test('ListBase', () => listBaseTests());
   	test('Checkbox', () => checkboxTests());
 //  	test('CheckboxGroup', () => checkboxGroupTests());

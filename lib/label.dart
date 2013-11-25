@@ -38,6 +38,11 @@ class Label extends SpanElement with Polymer, Observable, Component implements I
   static const EventStreamProvider<Event> _includeInLayoutEvent = const EventStreamProvider<Event>(Component.INCLUDE_IN_LAYOUT_EVENT);
   
   /**
+   * Provider of 'change' events.
+   */
+  static const EventStreamProvider<Event> _changeEvent = const EventStreamProvider<Event>(Component.CHANGE_EVENT);
+  
+  /**
    * Provider of 'dataChange' events.
    */
   static const EventStreamProvider<Event> _dataChangeEvent = const EventStreamProvider<Event>(Component.DATA_CHANGE_EVENT);
@@ -66,10 +71,13 @@ class Label extends SpanElement with Polymer, Observable, Component implements I
   
   /**
    * Will equals true if rendering item is selected.
-   * Sets by owner.
    */
   @published
-  bool itemSelected;
+  bool itemSelected = false;
+  itemSelectedChanged(old) {
+    print('itemSelected is $itemSelected');
+    dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
+  }
   
   /**********
    * Events *
@@ -89,6 +97,11 @@ class Label extends SpanElement with Polymer, Observable, Component implements I
    * Stream of 'includeInLayout' events handled by this element.
    */
   ElementStream<Event> get onIncludeInLayout => _includeInLayoutEvent.forElement(this);
+  
+  /**
+   * Stream of 'change' events handled by this element.
+   */
+  ElementStream<Event> get onChange => _changeEvent.forElement(this);
   
   /**
    * Stream of 'dataChange' events handled by this element.
