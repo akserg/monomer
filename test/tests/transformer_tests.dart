@@ -33,7 +33,6 @@ void transformerTests() {
       
       logMessage('Forward tranformation');
       expect(toDouble.forward(null), "", reason:'must be empty');
-      expect(() => toDouble.forward(1), throwsA(new isInstanceOf<TypeError>()), reason:'must be exception');
       
       logMessage('Reverse tranformation');
       expect(toDouble.reverse(null), isNull, reason:'must be null');
