@@ -76,6 +76,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   @published
   String itemRenderer;
   itemRendererChanged(old) {
+    print('itemRendererChanged $itemRenderer');
     callLater(updateUI);
   }
   
