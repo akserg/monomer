@@ -65,27 +65,27 @@ void main() {
   initPolymer();
   useHtmlEnhancedConfiguration();
   group('All Tests:', (){
-//    test('Component', () => componentTests());
-//    
-//  	test('Button', () => buttonTests());
-//  	test('POST button', () => postButtonTests());
-//  	test('Delete button', () => deleteButtonTests());
-//  	test('Upload button', () => uploadButtonTests());
-//  	
-//  	test('Validator', () => validatorTests());
-//  	test('String Validator', () => stringValidatorTests());
-//  	test('Number Validator', () => numberValidatorTests());
-//  	test('RegExp Validator', () => regexpValidatorTests());
-//  	test('RegExp Validator', () => comparatorValidatorTests());
-//  	
-//  	test('Utility', () => utilityTests());
-//  	
-//  	test('Transformer', () => transformerTests());
-//  	test('Form', () => formTests());
-//  	test('FormField', () => formFieldTests());
-//  	test('Label', () => labelTests());
+    test('Component', () => componentTests());
+    
+  	test('Button', () => buttonTests());
+  	test('POST button', () => postButtonTests());
+  	test('Delete button', () => deleteButtonTests());
+  	test('Upload button', () => uploadButtonTests());
+  	
+  	test('Validator', () => validatorTests());
+  	test('String Validator', () => stringValidatorTests());
+  	test('Number Validator', () => numberValidatorTests());
+  	test('RegExp Validator', () => regexpValidatorTests());
+  	test('RegExp Validator', () => comparatorValidatorTests());
+  	
+  	test('Utility', () => utilityTests());
+  	
+  	test('Transformer', () => transformerTests());
+  	test('Form', () => formTests());
+  	test('FormField', () => formFieldTests());
+  	test('Label', () => labelTests());
   	test('ListBase', () => listBaseTests());
-//  	test('CheckboxItemRenderer', () => checkboxTests());
+  	test('CheckboxItemRenderer', () => checkboxTests());
 //  	test('CheckboxGroup', () => checkboxGroupTests());
   });
 }
