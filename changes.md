@@ -1,6 +1,13 @@
 Monomer Changes
 ===============
 
+** November 25, 2013
+
+* Created Label and Checkbox components.
+* Recreated ItemRenderer interface.
+* Removed CheckBoxItemrenderer.
+* Written a lot of unit tests.
+
 ** November 24, 2013
 
 * Updated Listbase. Added ItemRenderer, ItemRendererOwner.

@@ -69,7 +69,9 @@ class Utility {
    */
   static dynamic getValue(dynamic item, String valuePath) {
     assert(item != null);
-    assert(valuePath != null);
+    if (valuePath == null || valuePath.trim().length == 0) {
+      return item;
+    }
     try {
       int indx = valuePath.indexOf(".");
       if (item is Map) {

@@ -13,6 +13,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:polymer/polymer.dart';
+import 'package:polymer_expressions/filter.dart';
+
 import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 import 'package:unittest/html_enhanced_config.dart';
@@ -29,6 +31,13 @@ import 'package:monomer/regexp_validator.dart';
 import 'package:monomer/comparator_validator.dart';
 import 'package:monomer/ajax.dart';
 import 'package:monomer/utility.dart';
+import 'package:monomer/transformer.dart';
+import 'package:monomer/form.dart';
+import 'package:monomer/form_field.dart';
+import 'package:monomer/label.dart';
+import 'package:monomer/checkbox.dart';
+import 'package:monomer/list_base.dart';
+import 'package:monomer/checkbox_group.dart';
 
 part 'mocks/ajax_mock.dart';
 
@@ -46,9 +55,10 @@ part 'tests/utility_tests.dart';
 part 'tests/transformer_tests.dart';
 part 'tests/form_tests.dart';
 part 'tests/form_field_tests.dart';
+part 'tests/label_tests.dart';
 part 'tests/list_base_tests.dart';
-part 'tests/check_box_group_tests.dart';
-part 'tests/check_box_item_renderer_tests.dart';
+part 'tests/checkbox_tests.dart';
+part 'tests/checkbox_group_tests.dart';
 
 void main() {
   print('Running unit tests for Monomer library.');
@@ -70,11 +80,12 @@ void main() {
   	
   	test('Utility', () => utilityTests());
   	
-//  	test('Transformer', () => transformerTests());
-//  	test('Form', () => formTests());
-//  	test('FormField', () => formFieldTests());
-//  	test('ListBase', () => listBaseTests());
-//  	test('CheckBoxItemRenderer', () => listBaseTests());
-//  	test('CheckBoxGroup', () => listBaseTests());
+  	test('Transformer', () => transformerTests());
+  	test('Form', () => formTests());
+  	test('FormField', () => formFieldTests());
+  	test('Label', () => labelTests());
+  	test('ListBase', () => listBaseTests());
+  	test('CheckboxItemRenderer', () => checkboxTests());
+//  	test('CheckboxGroup', () => checkboxGroupTests());
   });
 }

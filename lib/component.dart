@@ -23,6 +23,7 @@ abstract class Component {
   static const String FAULT_EVENT = 'fault';
   static const String VALIDATE_EVENT = 'validate';
   static const String CHANGE_EVENT = 'change';
+  static const String DATA_CHANGE_EVENT = 'dataChange';
   
   /**************
    * Visibility *

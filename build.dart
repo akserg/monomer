@@ -5,6 +5,6 @@
 import 'package:polymer/builder.dart';
 
 main(args) {
-	build(entryPoints: ['web/index.html'], 
+	build(entryPoints: ['web/index.html','test/monomer_tests.html'], 
 	      options: parseOptions(args));
 }

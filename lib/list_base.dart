@@ -9,7 +9,7 @@ import 'package:polymer/polymer.dart';
 import 'package:template_binding/template_binding.dart';
 
 import 'component.dart';
-import 'list_item_renderer.dart';
+import 'item_renderer.dart';
 import 'item_renderer_owner.dart';
 
 import 'utility.dart';
@@ -23,6 +23,32 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   /***********
    * CONSTANTS
    **********/
+  
+  /**
+   * Provider of 'action' events.
+   */
+  static const EventStreamProvider<Event> _actionEvent = const EventStreamProvider<Event>(Component.ACTION_EVENT);
+  
+  /**
+   * Provider of 'visible' events.
+   */
+  static const EventStreamProvider<Event> _visibleEvent = const EventStreamProvider<Event>(Component.VISIBLE_EVENT);
+  
+  /**
+   * Provider of 'includeInLayout' events.
+   */
+  static const EventStreamProvider<Event> _includeInLayoutEvent = const EventStreamProvider<Event>(Component.INCLUDE_IN_LAYOUT_EVENT);
+  
+  /**
+   * Provider of 'success' events.
+   */
+  static const EventStreamProvider<Event> _successEvent = const EventStreamProvider<Event>(Component.SUCCESS_EVENT);
+  
+  /**
+   * Provider of 'fault' events.
+   */
+  static const EventStreamProvider<Event> _faultEvent = const EventStreamProvider<Event>(Component.FAULT_EVENT);
+  
   /**
    * Provider of 'change' events.
    */
@@ -45,7 +71,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   ObservableList selectedItems = toObservable([]);
   
   /**
-   * Instance of [ListItemRenderer] using to rendering content of items.
+   * Instance of [ItemRenderer] using to rendering content of items.
    */
   @published
   String itemRenderer;
@@ -56,7 +82,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   /**
    * Map of NodeBindings.
    */
-  Map<ListItemRenderer, NodeBindExtension> itemRenderers = {};
+  Map<ItemRenderer, NodeBindExtension> listItems = {};
   
   /**
    * Owner of ItemRenderers. By default it's [shadowRoot], but any other
@@ -141,13 +167,13 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   }
   
   /**
-   * Set the index in the data provider of the selected item.
+   * Select item by [index].
    */
-  void set selectedIndex(int value) {
-    if (value >= 0 && value < dataProvider.length) {
-      selectedItem = dataProvider[value];
+  void set selectedIndex(int index) {
+    if (index >= 0 && index < dataProvider.length) {
+      selectedItem = dataProvider[index];
       callLater(updateSelectedItems);
-    } else if (value == -1) {
+    } else if (index == -1) {
       selectedItem = null;
     } else {
       throw new Exception("Out of bound exception");
@@ -209,6 +235,31 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    **********/
   
   /**
+   * Stream of 'action' events handled by this element.
+   */
+  ElementStream<Event> get onAction => _actionEvent.forElement(this);
+  
+  /**
+   * Stream of 'visible' events handled by this element.
+   */
+  ElementStream<Event> get onVisible => _visibleEvent.forElement(this);
+  
+  /**
+   * Stream of 'includeInLayout' events handled by this element.
+   */
+  ElementStream<Event> get onIncludeInLayout => _includeInLayoutEvent.forElement(this);
+  
+  /**
+   * Stream of 'success' events handled by this element.
+   */
+  ElementStream<Event> get onSuccess => _successEvent.forElement(this);
+  
+  /**
+   * Stream of 'fault' events handled by this element.
+   */
+  ElementStream<Event> get onFault => _faultEvent.forElement(this);
+  
+  /**
    * Stream of 'change' events handled by this element.
    */
   ElementStream<Event> get onChange => _changeEvent.forElement(this);
@@ -233,6 +284,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
       print('onPropertyChange dataProvider: $dataProvider');
       // Remove selection and call updateSelectedItems methods afterwords
       selectAll(false);
+      // Redraw UI
       callLater(updateUI);
     });
     onPropertyChange(this, #selectedItems, (){
@@ -244,6 +296,9 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     });
   }
   
+  /**
+   * Call to redraw UI.
+   */
   @override
   void enteredView() {
     super.enteredView();
@@ -288,8 +343,16 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   String itemToLabel(data) {
     print('itemToLabel for $data');
-    return labelFunction != null ? labelFunction(data) : 
-           labelPath == null ? data : data == null ? null : Utility.getValue(data, labelPath);
+    if (data != null) {
+      if (labelFunction != null) {
+        return labelFunction(data);
+      } else if (labelPath != null) {
+        return Utility.getValue(data, labelPath);
+      } else {
+        return data.toString();
+      }
+    }
+    return '';
   }
   
   /**
@@ -297,7 +360,15 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   String itemToValue(data) {
     print('itemToValue for $data');
-    return valuePath == null ? data : data == null ? null : Utility.getValue(data, valuePath);
+    if (data != null) {
+      if (valuePath != null) {
+        dynamic value = Utility.getValue(data, valuePath);
+        return value == null ? '' : value.toString();
+      } else {
+        return data.toString();
+      }
+    }
+    return '';
   }
 
   /****************************
@@ -332,7 +403,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     if (allowSelectFirst && selectedIndex == 0)
       return;
     // Move through item renderers and select first selected
-    itemRenderers.keys.firstWhere((ListItemRenderer renderer){
+    listItems.keys.firstWhere((ItemRenderer renderer){
       if (renderer.itemSelected) {
         renderer.scrollIntoView();
         return true;
@@ -368,7 +439,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Convinience method to update state of each item renderer. 
    */
   void updateSelectedItems() {
-    itemRenderers.forEach((ListItemRenderer renderer, NodeBindExtension nodeBind){
+    listItems.forEach((ItemRenderer renderer, NodeBindExtension nodeBind){
       updateItem(renderer);
     });
   }
@@ -376,7 +447,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   /**
    * Update state of [item].
    */
-  void updateItem(ListItemRenderer item) {
+  void updateItem(ItemRenderer item) {
     item.itemSelected = isSelected(item.data);
   }
   
@@ -394,12 +465,12 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   void removeUIItems() {
     // Remove old
-    itemRenderers.forEach((ListItemRenderer item, NodeBindExtension bindExt) {
+    listItems.forEach((ItemRenderer item, NodeBindExtension bindExt) {
       print('updateUI.remove $item');
       bindExt.unbindAll();
       item.remove();
     });
-    itemRenderers.clear();
+    listItems.clear();
   }
   
   /**
@@ -411,24 +482,26 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
         //
         print('updateUI.render $data');
         // Instantiate [itemRenderer]
-        ListItemRenderer renderer = instantiateItemRenderer();
-        // Bind renderer properties to local
+        ItemRenderer renderer = instantiateItemRenderer();
+        // Bind renderer properties to local one
         NodeBindExtension bindExt = nodeBind(renderer)
             ..bind('data', data, '');
         // Append new renderer to owner
         owner.append(renderer);
         // Keep them until update or remove
-        itemRenderers[renderer] = bindExt;
+        listItems[renderer] = bindExt;
         print('updateUI.add $renderer');
       });
+    } else {
+      print('The item renderer was not specified.');
     }
   }
   
   /**
    * Create an instance of [itemRenderer].
    */
-  ListItemRenderer instantiateItemRenderer() {
-    ListItemRenderer renderer;
+  ItemRenderer instantiateItemRenderer() {
+    ItemRenderer renderer;
     if (itemRenderer.contains('.')) {
       List<String> parts = itemRenderer.split(".");
       print('updateUI.itemRenderer are ${parts[0]}, ${parts[1]}');
@@ -437,7 +510,12 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
       print('updateUI.itemRenderer is $itemRenderer');
       renderer = new Element.tag(itemRenderer);
     }
-    renderer.owner = this;
+    renderer.onDataChange.listen((CustomEvent event){
+      ItemRenderer item = event.target;
+      item.label = itemToLabel(item.data);
+    });
     return renderer;
   }
+  
+  
 }

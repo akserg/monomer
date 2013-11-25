@@ -6,7 +6,6 @@ library monomer_item_renderer;
 
 import 'dart:html';
 
-import 'item_renderer_owner.dart';
 import 'component.dart';
 
 /**
@@ -18,6 +17,10 @@ import 'component.dart';
  * property.
  */
 abstract class ItemRenderer implements Element, Component {
+  
+  /**************
+   * PROPERTIES *
+   **************/
   
   /**
    * The data to render or edit.
@@ -32,11 +35,17 @@ abstract class ItemRenderer implements Element, Component {
   String label;
   
   /**
-   * The owner of this ItemRenderer object. 
-   * By default, it is the parent of this ItemRenderer object.
-   * However, if this ItemRenderer object is a child component that is
-   * popped up by its parent, such as the drop-down list of a ComboBox control,
-   * the owner is the component that popped up this ItemRenderer object.
+   * Will equals true if rendering item is selected.
+   * Sets by owner.
    */
-  ItemRendererOwner owner;
+  bool itemSelected;
+  
+  /**********
+   * Events *
+   **********/
+  
+  /**
+   * Stream of 'dataChange' events handled by this element.
+   */
+  ElementStream<Event> get onDataChange;
 }

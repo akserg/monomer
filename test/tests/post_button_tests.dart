@@ -97,29 +97,5 @@ void postButtonTests() {
       logMessage('Click on button');
       button.dispatchEvent(new MouseEvent('click'));
     });
-    
-//    test('Do POST Error Action', () {
-//      logMessage('Expect call POST Erro action method when user click on button');
-//
-//      AjaxMock ajax = new AjaxErrorMock();
-//      ajax.data = dataToSend;
-//      
-//      button.data = dataToSend;
-//      button.url = "dummy";
-//      button.ajax = ajax;
-//      
-//      button.onFault.listen((event){
-//        logMessage('Handle Error Event');
-//        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
-//        expect(event.type, equals('fault'), reason:'must be fault event type');
-//        expect(event.detail, new isInstanceOf<HttpRequest>(), reason:'must be HttpRequest event type');
-//        HttpRequest request = event.detail;
-//        expect(request.status, equals(404), reason:'must return 404');
-//      });
-//      
-//      logMessage('Click on button');
-//      button.dispatchEvent(new MouseEvent('click'));
-//    });
-    
   });
 }

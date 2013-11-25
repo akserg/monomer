@@ -5,76 +5,61 @@
 part of monomer_tests;
 
 void formFieldTests() {
-  logMessage('Performing button tests.');
+  logMessage('Performing formField tests.');
 
-  group('Testing button:', () {
-    Button button;
+  group('Testing formField:', () {
+    FormField formField;
     var dataToSend = {'id':1, 'name':'Test Name'};
     
     setUp((){
-      button = new Button();
-      document.body.append(button);
+      formField = new FormField();
+      document.body.append(formField);
     });
     
     tearDown((){
-      button.remove();
-    });
-    
-    test('Do Action', () {
-      logMessage('Expect call action method when user click on button');
-      
-      button.data = dataToSend;
-      
-      button.onAction.listen((event) {
-        logMessage('Handle Action Event');
-        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
-        expect(event.type, equals('action'), reason:'must be action event type');
-      });
-      
-      logMessage('Click on button');
-      button.dispatchEvent(new MouseEvent('click'));
+      formField.remove();
     });
     
     test('Do Visible', () {
-      logMessage('Expect make button visible or invisible');
+      logMessage('Expect make formField visible or invisible');
       
-      button.onVisible.listen((event) {
+      formField.onVisible.listen((event) {
         logMessage('Handle Visible Event');
         expect(event, new isInstanceOf<CustomEvent>());
         // Check the state
         bool visible = (event as CustomEvent).detail;
         if (visible) {
-          expect(button.style.display, equals(''), reason:'must be visible');
+          expect(formField.style.display, equals(''), reason:'must be visible');
         } else {
-          expect(button.style.display, equals('none'), reason:'must be invisible');
+          expect(formField.style.display, equals('none'), reason:'must be invisible');
         }
       });
       
-      logMessage('Set button invisible');
-      Component.setVisible(button, false);
-      logMessage('Set button visible');
-      Component.setVisible(button, true);
+      logMessage('Set formField invisible');
+      Component.setVisible(formField, false);
+      logMessage('Set formField visible');
+      Component.setVisible(formField, true);
     });
     
     test('Do Include in Layout', () {
-      logMessage('Expect include or exclude button from layout');
+      logMessage('Expect include or exclude formField from layout');
       
-      button.onIncludeInLayout.listen((event) {
+      formField.onIncludeInLayout.listen((event) {
         logMessage('Handle IncludeInLayout Event');
         expect(event, new isInstanceOf<CustomEvent>());
         // Check the state
         bool visibility = (event as CustomEvent).detail;
         if (visibility) {
-          expect(button.style.visibility, equals('visible'), reason:'must be include in layout');
+          expect(formField.style.visibility, equals('visible'), reason:'must be include in layout');
         } else {
-          expect(button.style.visibility, equals('hidden'), reason:'must be exnclude from layout');
+          expect(formField.style.visibility, equals('hidden'), reason:'must be exnclude from layout');
         }
       });
       
-      logMessage('Exclude button from layout');
-      Component.setIncludeInLayout(button, false);
-      logMessage('Include button in layout');
-      Component.setIncludeInLayout(button, true);
+      logMessage('Exclude formField from layout');
+      Component.setIncludeInLayout(formField, false);
+      logMessage('Include formField in layout');
+      Component.setIncludeInLayout(formField, true);
     });
   });
 }

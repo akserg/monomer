@@ -7,7 +7,7 @@ library monomer_check_box_group;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
-import 'list_item_renderer.dart';
+import 'item_renderer.dart';
 import 'list_base.dart';
 import 'component.dart';
 
@@ -50,8 +50,8 @@ class CheckboxGroup extends ListBase with Polymer, Observable, Component {
    * Create an instance of [itemRenderer].
    */
   @override
-  ListItemRenderer instantiateItemRenderer() {
-    ListItemRenderer renderer = super.instantiateItemRenderer();
+  ItemRenderer instantiateItemRenderer() {
+    ItemRenderer renderer = super.instantiateItemRenderer();
     renderer.onChange.listen(onItemRendererChange);
     return renderer;
   }

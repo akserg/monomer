@@ -8,73 +8,85 @@ void transformerTests() {
   logMessage('Performing button tests.');
 
   group('Testing button:', () {
-    Button button;
-    var dataToSend = {'id':1, 'name':'Test Name'};
+    Transformer toInt = new ToInt();
+    Transformer toDouble = new ToDouble();
+    Transformer toBool = new ToBool();
+    Transformer toUpperCase = new ToUpperCase();
+    Transformer toLowerCase = new ToLowerCase();
     
-    setUp((){
-      button = new Button();
-      document.body.append(button);
+    test('Do ToInt', () {
+      logMessage('Expect transform String to Int and back');
+      
+      logMessage('Forward tranformation');
+      expect(toInt.forward(null), "", reason:'must be empty');
+      expect(toInt.forward(1), "1", reason:'must be 1');
+      
+      logMessage('Reverse tranformation');
+      expect(toInt.reverse(null), isNull, reason:'must be null');
+      expect(toInt.reverse("abc"), isNull, reason:'must be null');
+      expect(toInt.reverse("1.1"), isNull, reason:'must be null');
+      expect(toInt.reverse("1"), 1, reason:'must be 1');
     });
     
-    tearDown((){
-      button.remove();
+    test('Do ToDouble', () {
+      logMessage('Expect transform String to Double and back');
+      
+      logMessage('Forward tranformation');
+      expect(toDouble.forward(null), "", reason:'must be empty');
+      expect(() => toDouble.forward(1), throwsA(new isInstanceOf<TypeError>()), reason:'must be exception');
+      
+      logMessage('Reverse tranformation');
+      expect(toDouble.reverse(null), isNull, reason:'must be null');
+      expect(toDouble.reverse("abc"), isNull, reason:'must be null');
+      expect(toDouble.reverse("1.1"), 1.1, reason:'must be 1.1');
+      expect(toDouble.reverse("1"), 1, reason:'must be 1');
     });
     
-    test('Do Action', () {
-      logMessage('Expect call action method when user click on button');
+    test('Do ToBool', () {
+      logMessage('Expect transform String to Bool and back');
       
-      button.data = dataToSend;
+      logMessage('Forward tranformation');
+      expect(toBool.forward(null), "", reason:'must be empty');
+      expect(toBool.forward(true), "true", reason:'must be true');
+      expect(toBool.forward(false), "false", reason:'must be false');
       
-      button.onAction.listen((event) {
-        logMessage('Handle Action Event');
-        expect(event, new isInstanceOf<CustomEvent>(), reason:'must be CustomEvent');
-        expect(event.type, equals('action'), reason:'must be action event type');
-      });
-      
-      logMessage('Click on button');
-      button.dispatchEvent(new MouseEvent('click'));
+      logMessage('Reverse tranformation');
+      expect(toBool.reverse(null), isNull, reason:'must be null');
+      expect(toBool.reverse("abc"), false, reason:'must be false');
+      expect(toBool.reverse("1.1"), false, reason:'must be false');
+      expect(toBool.reverse("1"), false, reason:'must be false');
+      expect(toBool.reverse("false"), false, reason:'must be false');
+      expect(toBool.reverse("true"), true, reason:'must be true');
     });
     
-    test('Do Visible', () {
-      logMessage('Expect make button visible or invisible');
+    test('Do ToUpperCase', () {
+      logMessage('Expect transform String to Uppercase and back');
       
-      button.onVisible.listen((event) {
-        logMessage('Handle Visible Event');
-        expect(event, new isInstanceOf<CustomEvent>());
-        // Check the state
-        bool visible = (event as CustomEvent).detail;
-        if (visible) {
-          expect(button.style.display, equals(''), reason:'must be visible');
-        } else {
-          expect(button.style.display, equals('none'), reason:'must be invisible');
-        }
-      });
+      logMessage('Forward tranformation');
+      expect(toUpperCase.forward(null), "", reason:'must be empty');
+      expect(toUpperCase.forward("abc"), "ABC", reason:'must be ABC');
+      expect(toUpperCase.forward("ABC"), "ABC", reason:'must be ABC');
+      expect(toUpperCase.forward("AbC"), "ABC", reason:'must be ABC');
       
-      logMessage('Set button invisible');
-      Component.setVisible(button, false);
-      logMessage('Set button visible');
-      Component.setVisible(button, true);
+      logMessage('Reverse tranformation');
+      expect(toUpperCase.reverse(null), isNull, reason:'must be null');
+      expect(toUpperCase.reverse("abc"), 'abc', reason:'must be the same');
+      expect(toUpperCase.reverse("ABC"), 'ABC', reason:'must be the same');
     });
     
-    test('Do Include in Layout', () {
-      logMessage('Expect include or exclude button from layout');
+    test('Do ToLowerCase', () {
+      logMessage('Expect transform String to Lower and back');
       
-      button.onIncludeInLayout.listen((event) {
-        logMessage('Handle IncludeInLayout Event');
-        expect(event, new isInstanceOf<CustomEvent>());
-        // Check the state
-        bool visibility = (event as CustomEvent).detail;
-        if (visibility) {
-          expect(button.style.visibility, equals('visible'), reason:'must be include in layout');
-        } else {
-          expect(button.style.visibility, equals('hidden'), reason:'must be exnclude from layout');
-        }
-      });
+      logMessage('Forward tranformation');
+      expect(toLowerCase.forward(null), "", reason:'must be empty');
+      expect(toLowerCase.forward("abc"), "abc", reason:'must be abc');
+      expect(toLowerCase.forward("ABC"), "abc", reason:'must be abc');
+      expect(toLowerCase.forward("AbC"), "abc", reason:'must be abc');
       
-      logMessage('Exclude button from layout');
-      Component.setIncludeInLayout(button, false);
-      logMessage('Include button in layout');
-      Component.setIncludeInLayout(button, true);
+      logMessage('Reverse tranformation');
+      expect(toLowerCase.reverse(null), isNull, reason:'must be null');
+      expect(toLowerCase.reverse("abc"), 'abc', reason:'must be the same');
+      expect(toLowerCase.reverse("ABC"), 'ABC', reason:'must be the same');
     });
   });
 }
