@@ -5,8 +5,10 @@
 library monomer_listbase;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
 import 'package:template_binding/template_binding.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 import 'item_renderer.dart';
@@ -20,6 +22,8 @@ import 'utility.dart';
 @CustomTag('m-list-base')
 class ListBase extends DivElement with Polymer, Observable, Component implements ItemRendererOwner {
 
+  static final _logger = LoggerFactory.getLoggerFor(ListBase);
+  
   /***********
    * CONSTANTS
    **********/
@@ -76,7 +80,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   @published
   String itemRenderer = "span.m-label";
   itemRendererChanged(old) {
-    print('itemRendererChanged $itemRenderer');
+    _logger.debug('itemRendererChanged $itemRenderer');
     callLater(updateUI);
   }
   
@@ -142,7 +146,6 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   @published
   dynamic get selectedItem {
-    print('get selectedItem');
     if (selectedItems.length > 0)
       return this.selectedItems[0];
     return null;
@@ -152,7 +155,6 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Set a reference to the selected [item] in the data provider.
    */
   void set selectedItem(dynamic item) {
-    print('set selectedItem');
     selectedItems.clear();
     if (item != null) {
       selectedItems.add(item);
@@ -282,14 +284,14 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   ListBase.created() : super.created() {
     onPropertyChange(this, #dataProvider, (){
-      print('onPropertyChange dataProvider: $dataProvider');
+      _logger.debug('onPropertyChange dataProvider: $dataProvider');
       // Remove selection and call updateSelectedItems methods afterwords
       selectAll(false);
       // Redraw UI
       callLater(updateUI);
     });
     onPropertyChange(this, #selectedItems, (){
-      print('onPropertyChange selectedItems: $selectedItems');
+      _logger.debug('onPropertyChange selectedItems: $selectedItems');
       callLater((){
         updateSelectedItems();
         dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:value));
@@ -303,7 +305,6 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   @override
   void enteredView() {
     super.enteredView();
-    print('enteredView');
     callLater(updateUI);
   }
   
@@ -343,7 +344,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Transform [data] to label with [labelPath].
    */
   String itemToLabel(data) {
-    print('itemToLabel for $data');
+    _logger.debug('itemToLabel for $data');
     if (data != null) {
       if (labelFunction != null) {
         return labelFunction(data);
@@ -360,7 +361,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Transform [data] to label with [valuePath].
    */
   String itemToValue(data) {
-    print('itemToValue for $data');
+    _logger.debug('itemToValue for $data');
     if (data != null) {
       if (valuePath != null) {
         dynamic value = Utility.getValue(data, valuePath);
@@ -417,7 +418,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Toggle selection of [data] item.
    */
   void toggleSelection(dynamic data) {
-    print('allowMultipleSelection is $allowMultipleSelection');
+    _logger.debug('allowMultipleSelection is $allowMultipleSelection');
     if (allowMultipleSelection) {
       if (selectedItems.contains(data)) {
         selectedItems.remove(data);
@@ -456,7 +457,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Update display list of UI.
    */
   void updateUI() {
-    print('updateUI');
+    _logger.debug('updateUI');
     removeUIItems();
     addUIItems();
   }
@@ -467,7 +468,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   void removeUIItems() {
     // Remove old
     listItems.forEach((ItemRenderer item, NodeBindExtension bindExt) {
-      print('updateUI.remove $item');
+      _logger.debug('updateUI.remove $item');
       bindExt.unbindAll();
       item.remove();
     });
@@ -481,7 +482,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     if (itemRenderer != null) {
       dataProvider.forEach((data){
         //
-        print('updateUI.render $data');
+        _logger.debug('updateUI.render $data');
         // Instantiate [itemRenderer]
         ItemRenderer renderer = instantiateItemRenderer();
         // Bind renderer properties to local one
@@ -491,10 +492,10 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
         owner.append(renderer);
         // Keep them until update or remove
         listItems[renderer] = bindExt;
-        print('updateUI.add $renderer');
+        _logger.debug('updateUI.add $renderer');
       });
     } else {
-      print('The item renderer was not specified.');
+      _logger.warn('The item renderer was not specified.');
     }
   }
   
@@ -505,10 +506,10 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     ItemRenderer renderer;
     if (itemRenderer.contains('.')) {
       List<String> parts = itemRenderer.split(".");
-      print('updateUI.itemRenderer are ${parts[0]}, ${parts[1]}');
+      _logger.debug('ItemRenderer are ${parts[0]}, ${parts[1]}');
       renderer = new Element.tag(parts[0], parts[1]);
     } else {
-      print('updateUI.itemRenderer is $itemRenderer');
+      _logger.debug('ItemRenderer is $itemRenderer');
       renderer = new Element.tag(itemRenderer);
     }
     renderer.onDataChange.listen((CustomEvent event){

@@ -5,12 +5,16 @@
 library example_order_lookup;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
 import 'package:monomer/component.dart';
+import "package:log4dart/log4dart.dart";
 
 @CustomTag('e-order-lookup')
 class OrderLookup extends DivElement with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(OrderLookup);
+  
   /*************
    * Properties
    ************/
@@ -61,9 +65,9 @@ class OrderLookup extends DivElement with Polymer, Observable, Component {
    * Action Event handler.
    */
   void onAction(CustomEvent event) {
-    print('action ${event.target}. Data is: ${event.detail}');
+    _logger.debug('action ${event.target}. Data is: ${event.detail}');
     if (event.target is Component) {
-      print('Data is ${(event.target as Component).data}');
+      _logger.debug('Data is ${(event.target as Component).data}');
     }
   }
   
@@ -71,7 +75,7 @@ class OrderLookup extends DivElement with Polymer, Observable, Component {
    * Fault Event handler.
    */
   void onFault(CustomEvent event) {
-    print('fault ${event.target}: ${event.detail}');
+    _logger.error('fault ${event.target}: ${event.detail}');
   }
   
   /******************
@@ -79,7 +83,7 @@ class OrderLookup extends DivElement with Polymer, Observable, Component {
    ******************/
   
   void onContrySelected(CustomEvent event) {
-    print('SelectedCoutries changed: ${event.detail}');
+    _logger.debug('SelectedCoutries changed: ${event.detail}');
   }
 }
 

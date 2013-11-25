@@ -5,7 +5,9 @@
 library monomer_button;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 
@@ -14,6 +16,8 @@ import 'component.dart';
  */
 @CustomTag('m-button')
 class Button extends ButtonElement with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(Button);
   
   /*************
    * Constants *
@@ -96,6 +100,7 @@ class Button extends ButtonElement with Polymer, Observable, Component {
    */
   void onClickHandler(Event e) {
     cancelEvent(e);
+    _logger.debug("Action on Button with $data");
     dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:data));
   }
 }

@@ -5,7 +5,9 @@
 library monomer_form_field;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 
@@ -14,6 +16,8 @@ import 'component.dart';
  */
 @CustomTag('m-form-field')
 class FormField extends DivElement with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(FormField);
   
   /*************
    * Constants *

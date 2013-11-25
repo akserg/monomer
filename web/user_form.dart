@@ -5,16 +5,20 @@
 library example_order_form;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
 import 'package:polymer_expressions/filter.dart';
 import 'package:monomer/component.dart';
 import 'package:monomer/transformer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'user.dart';
 
 @CustomTag('e-user-form')
 class UserForm extends DivElement with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(UserForm);
+  
   /*************
    * Properties
    ************/
@@ -71,9 +75,9 @@ class UserForm extends DivElement with Polymer, Observable, Component {
    * Action EVent handler.
    */
   void onAction(CustomEvent event) {
-    print('action ${event.target}. Data is: ${event.detail}');
+    _logger.debug('action ${event.target}. Data is: ${event.detail}');
     if (event.target is Component) {
-      print('Data is ${(event.target as Component).data}');
+      _logger.debug('Data is ${(event.target as Component).data}');
     }
   }
   
@@ -81,7 +85,7 @@ class UserForm extends DivElement with Polymer, Observable, Component {
    * Fault Event handler.
    */
   void onFault(CustomEvent event) {
-    print('fault ${event.target}: ${event.detail}');
+    _logger.error('fault ${event.target}: ${event.detail}');
   }
 }
 

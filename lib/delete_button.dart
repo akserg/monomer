@@ -5,7 +5,10 @@
 library monomer_delete_button;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
+
 import 'post_button.dart';
 import 'component.dart';
 
@@ -14,6 +17,8 @@ import 'component.dart';
  */
 @CustomTag('m-delete-button')
 class DeleteButton extends PostButton with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(DeleteButton);
   
   /******************
    * Initialisation *

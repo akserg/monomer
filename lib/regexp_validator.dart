@@ -5,7 +5,9 @@
 library monomer_regexp_validation;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 import 'validator.dart';
@@ -17,6 +19,8 @@ import 'validator.dart';
 @CustomTag('m-regexp-validator')
 class RegExpValidator extends Validator with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(RegExpValidator);
+  
   /**************
    * Properties *
    **************/
@@ -88,8 +92,6 @@ class RegExpValidator extends Validator with Polymer, Observable, Component {
    * Add validation to [validate] element.
    */
   void ready() {
-    print('ready');
-    //
     addValidationTo();
   }
   
@@ -114,13 +116,13 @@ class RegExpValidator extends Validator with Polymer, Observable, Component {
   @override
   List<String> doValidate(dynamic value, List<String> results) {
     List<String> res = super.doValidate(value, results);
-    print('String.doValidate $res');
+    _logger.debug('String.doValidate $res');
     // Return if there are errors or if the required property is set to false 
     // and length is 0.
     String val = value == null ? "" : value.toString();
     
     if (res.length > 0 || ((val.length == 0) && !required)) {
-      print('Back because is required');
+      _logger.debug('Back because is required');
       return res;
     } else {
       return _validateRegExpression(val);
@@ -142,6 +144,7 @@ class RegExpValidator extends Validator with Polymer, Observable, Component {
       results.add(noExpressionError);
     }
     
+    _logger.debug('_validateRegExpression $results');
     return results;
   }
 }

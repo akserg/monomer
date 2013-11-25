@@ -5,7 +5,9 @@
 library monomer_validation;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 
@@ -15,6 +17,8 @@ import 'component.dart';
 @CustomTag('m-validator')
 class Validator extends SpanElement with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(Validator);
+  
   /*************
    * Constants *
    *************/
@@ -107,9 +111,6 @@ class Validator extends SpanElement with Polymer, Observable, Component {
    * Add validation to [validate] element.
    */
   void ready() {
-    super.ready();
-    print('ready');
-    //
     addValidationTo();
   }
   
@@ -117,10 +118,10 @@ class Validator extends SpanElement with Polymer, Observable, Component {
    * Add validation to element referenced by [validate].
    */
   void addValidationTo() {
-    print('addValidationTo $validate');
+    _logger.debug('addValidationTo $validate');
     Element element = this.parent.querySelector(validate);
     if (element != null) {
-      print('addValidationTo as $element');
+      _logger.debug('addValidationTo as $element');
       element.onBlur.listen(validate_);
       element.onChange.listen(validate_);
       element.onKeyUp.listen(validate_);
@@ -137,7 +138,7 @@ class Validator extends SpanElement with Polymer, Observable, Component {
   bool isValid() {
     Element element = this.parent.querySelector(validate);
     if (element != null) {
-      print('Check is $element valid');
+      _logger.debug('Check is $element valid');
       return validate_(null);
     }
   }
@@ -151,22 +152,22 @@ class Validator extends SpanElement with Polymer, Observable, Component {
     // Check is element has asseptable type
     //dynamic element = e.target;
     dynamic element = this.parent.querySelector(validate);
-    print('validate_ is $element');
+    _logger.debug('validate_ is $element');
     if (element is InputElement ||
         element is SelectElement ||
         element is TextAreaElement) {
       dynamic value = element.value;
-      print('value is $value');
+      _logger.debug('value is $value');
       // Is validation enabled?
       if (enabled) {
         if (required && (value == null || value.toString().length == 0)) {
           // Do 'required' validation
           result.add(requiredError);
-          print('required $result');
+          _logger.debug('required $result');
         }
         // Continue validation
         result = doValidate(value, result);
-        print('required $result');
+        _logger.debug('required $result');
       }
       // Display validation result
       validationResult = toObservable(result);
@@ -182,7 +183,7 @@ class Validator extends SpanElement with Polymer, Observable, Component {
    * Developer must overrid [doValidate] rather then [validate] method.
    */
   List<String> doValidate(dynamic value, List<String> results) {
-    print('doValidate');
+    _logger.debug('doValidate');
     return results;
   }
 }

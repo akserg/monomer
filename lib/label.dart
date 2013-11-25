@@ -5,7 +5,9 @@
 library monomer_label;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'item_renderer.dart';
 import 'component.dart';
@@ -17,6 +19,8 @@ import 'component.dart';
  */
 @CustomTag('m-label')
 class Label extends SpanElement with Polymer, Observable, Component implements ItemRenderer {
+  
+  static final _logger = LoggerFactory.getLoggerFor(Label);
   
   /*************
    * Constants *
@@ -57,7 +61,7 @@ class Label extends SpanElement with Polymer, Observable, Component implements I
   @published
   dynamic data;
   dataChanged(old) {
-    print('data changed $old to $data');
+    _logger.debug('data changed $old to $data');
     dispatchEvent(new CustomEvent(Component.DATA_CHANGE_EVENT, detail:data));
   }
   
@@ -75,7 +79,7 @@ class Label extends SpanElement with Polymer, Observable, Component implements I
   @published
   bool itemSelected = false;
   itemSelectedChanged(old) {
-    print('itemSelected is $itemSelected');
+    _logger.debug('itemSelected is $itemSelected');
     dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
   }
   

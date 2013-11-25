@@ -5,7 +5,9 @@
 library monomer_number_validation;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 import 'validator.dart';
@@ -24,6 +26,8 @@ import 'validator.dart';
  */
 @CustomTag('m-number-validator')
 class NumberValidator extends Validator with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(NumberValidator);
   
   /*************
    * Constants *
@@ -180,8 +184,6 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * Add validation to [validate] element.
    */
   void ready() {
-    print('ready');
-    //
     addValidationTo();
   }
   
@@ -196,13 +198,13 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
   @override
   List<String> doValidate(dynamic value, List<String> results) {
     List<String> res = super.doValidate(value, results);
-    print('Number.doValidate $res');
+    _logger.debug('Number.doValidate $res');
     // Return if there are errors or if the required property is set to false 
     // and length is 0.
     String val = value == null ? "" : value.toString();
     
     if (res.length > 0 || ((val.length == 0) && !required)) {
-      print('Back because is required');
+      _logger.debug('Back because is required');
       return res;
     } else {
       return _validateNumber(val);
@@ -214,7 +216,7 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
    * item for each field examined by the validator.
    */
   List<String> _validateNumber(String value) {
-    print('_validateNumber $value');
+    _logger.debug('_validateNumber $value');
     List<String> results = [];
     
     int len = value.length;
@@ -385,7 +387,7 @@ class NumberValidator extends Validator with Polymer, Observable, Component {
         return results;
       }
     }
-    print('_validateNumber $results');
+    _logger.debug('_validateNumber $results');
     return results;
   }
 }

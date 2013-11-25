@@ -7,11 +7,15 @@ library monomer_component;
 import 'dart:html';
 import 'dart:async';
 
+import "package:log4dart/log4dart.dart";
+
 /**
  * The base mixin class for the majority of user-interface objects. 
  */
 abstract class Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(Component);
+  
   /*************
    * CONSTANTS *
    *************/
@@ -174,14 +178,14 @@ abstract class Component {
           // Execute function
           function();
         } on Exception catch(e) {
-          print(e);
+          _logger.error(e);
         } finally {
           // Remove function from queue
           queue.remove(function);
         }
       });
     } else {
-      print('Found function duplicate');
+      _logger.debug('Found function duplicate');
     }
   }
   

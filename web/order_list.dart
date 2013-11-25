@@ -5,14 +5,18 @@
 library example_order_list;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
 import 'package:monomer/component.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'order.dart';
 
 @CustomTag('e-order-list')
 class OrderList extends DivElement with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(OrderList);
+  
 	/*************
    * Properties
    ************/
@@ -63,7 +67,7 @@ class OrderList extends DivElement with Polymer, Observable, Component {
    * Action Event handler.
    */
   void onAction(CustomEvent event) {
-    print('action ${event.target}. Data is: ${event.detail}');
+    _logger.debug('action ${event.target}. Data is: ${event.detail}');
     if (event.target is Component) {
       print('Data is ${(event.target as Component).data}');
     }
@@ -73,7 +77,7 @@ class OrderList extends DivElement with Polymer, Observable, Component {
    * Fault Event handler.
    */
   void onFault(CustomEvent event) {
-    print('fault ${event.target}: ${event.detail}');
+    _logger.error('fault ${event.target}: ${event.detail}');
   }
 }
 

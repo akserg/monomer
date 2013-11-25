@@ -5,7 +5,9 @@
 library monomer_check_box_group;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'item_renderer.dart';
 import 'list_base.dart';
@@ -22,6 +24,8 @@ import 'component.dart';
 @CustomTag('m-checkbox-group')
 class CheckboxGroup extends ListBase with Polymer, Observable, Component {
   
+  static final _logger = LoggerFactory.getLoggerFor(CheckboxGroup);
+  
   /******************
    * Initialisation *
    ******************/
@@ -37,8 +41,6 @@ class CheckboxGroup extends ListBase with Polymer, Observable, Component {
    * Constructor instantiated by the DOM when a CheckboxGroup element has been created.
    */
   CheckboxGroup.created() : super.created() {
-    print('CheckboxGroup create');
-    //
     allowMultipleSelection = true;
     labelPath = 'label';
     valuePath = 'value';
@@ -64,7 +66,7 @@ class CheckboxGroup extends ListBase with Polymer, Observable, Component {
    * ItemRenderer changed the state
    */
   void onItemRendererChange(CustomEvent event) {
-    print('CheckboxGroup.onItemRendererChange');
+    _logger.debug('CheckboxGroup.onItemRendererChange');
     if (event.target is Component) {
       toggleSelection((event.target as Component).data);
     }

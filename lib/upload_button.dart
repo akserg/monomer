@@ -6,7 +6,10 @@ library monomer_upload_button;
 
 import 'dart:html';
 import 'dart:convert';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
+
 import 'post_button.dart';
 import 'component.dart';
 
@@ -15,6 +18,8 @@ import 'component.dart';
  */
 @CustomTag('m-upload-button')
 class UploadButton extends PostButton with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(UploadButton);
   
   /**************
    * Properties *
@@ -166,6 +171,8 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
       dataToSend.addAll(mergeData);
     }
     
+    _logger.debug("Request on UploadButton with $dataToSend");
+    
     request = new HttpRequest();
     request.timeout = 3600000;
     request.onLoad.listen(onUploadComplete);
@@ -211,8 +218,10 @@ class UploadButton extends PostButton with Polymer, Observable, Component {
   void onUploadComplete(ProgressEvent event) {
     if (event.target != null && event.target == request) {
       if (request.status == 200) {
+        _logger.debug("Upload success");
         value = request.responseText;
       } else {
+        _logger.debug("Upload fail with ${request.statusText}");
         window.alert(request.statusText);
         return;
       }

@@ -7,7 +7,9 @@ library monomer_post_button;
 import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'button.dart';
 import 'component.dart';
@@ -21,6 +23,8 @@ import 'ajax.dart';
  */
 @CustomTag('m-post-button')
 class PostButton extends Button with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(PostButton);
   
   /*************
    * Constants *
@@ -165,6 +169,8 @@ class PostButton extends Button with Polymer, Observable, Component {
         dataToSend.addAll(mergeData);
       }
       
+      _logger.debug("Request on POSTButton with $dataToSend");
+      
       // Send data
       ajax.post(url, 
           withCredentials:withCredentials ,
@@ -173,9 +179,11 @@ class PostButton extends Button with Polymer, Observable, Component {
           requestHeaders:requestHeaders , 
           sendData:JSON.encode(dataToSend))
       ..catchError((error){
+        _logger.error("Request failed $error");
         dispatchEvent(new CustomEvent(Component.FAULT_EVENT, detail:error.target));
       })
       ..then((request) {
+        _logger.debug("Response success ${request.responseText}");
         result = JSON.decode(request.responseText);
         dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:result));
       });

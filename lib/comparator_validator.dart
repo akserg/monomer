@@ -5,7 +5,9 @@
 library monomer_comparator_validation;
 
 import 'dart:html';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 import 'validator.dart';
@@ -17,6 +19,8 @@ import 'validator.dart';
 @CustomTag('m-comparator-validator')
 class ComparatorValidator extends Validator with Polymer, Observable, Component {
 
+  static final _logger = LoggerFactory.getLoggerFor(ComparatorValidator);
+  
   /**************
    * Properties *
    **************/
@@ -58,8 +62,6 @@ class ComparatorValidator extends Validator with Polymer, Observable, Component 
    */
   void ready() {
     super.ready();
-    print('ready');
-    //
     addValidationTo();
   }
   
@@ -67,11 +69,10 @@ class ComparatorValidator extends Validator with Polymer, Observable, Component 
    * Add validation to element referenced by [validate].
    */
   void addValidationTo() {
-    print('addValidationTo $validate');
     super.addValidationTo();
     Element toCompare = this.parent.querySelector(compareTo);
     if (toCompare != null) {
-      print('addValidationTo as $toCompare');
+      _logger.debug('addValidationTo as $toCompare');
       toCompare.onBlur.listen(validate_);
       toCompare.onChange.listen(validate_);
       toCompare.onKeyUp.listen(validate_);
@@ -85,33 +86,33 @@ class ComparatorValidator extends Validator with Polymer, Observable, Component 
     List<String> result = [];
     dynamic value, value2;
     // Check is element has asseptable type
-    //dynamic element = e.target;
     dynamic element = this.parent.querySelector(validate);
-    print('validate_ is $element');
+    _logger.debug('validate_ is $element');
     if (element is InputElement ||
         element is SelectElement ||
         element is TextAreaElement) {
       value = element.value;
-      print('value is $value');
+      _logger.debug('value is $value');
     }
     
     dynamic toCompare = this.parent.querySelector(compareTo);
-    print('validate_ is $toCompare');
+    _logger.debug('validate_ is $toCompare');
     if (toCompare is InputElement ||
         toCompare is SelectElement ||
         toCompare is TextAreaElement) {
       value2 = toCompare.value;
-      print('value2 is $value2');
+      _logger.debug('value2 is $value2');
     }
 
     // Is validation enabled?
     if (enabled && value != value2) {
       result.add(compareError);
-      print('Compare result: $result');
+      _logger.debug('Compare result: $result');
     }
     // Display validation result
     validationResult = toObservable(result);
     bool valid = result.length == 0;
+    _logger.debug('Validation result: $valid');
     // Dispatch Validation Event.
     dispatchEvent(new CustomEvent(Component.VALIDATE_EVENT, detail:(valid)));
     return valid;

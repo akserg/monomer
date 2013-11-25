@@ -6,7 +6,9 @@ library monomer_form;
 
 import 'dart:html';
 import 'dart:convert';
+
 import 'package:polymer/polymer.dart';
+import "package:log4dart/log4dart.dart";
 
 import 'component.dart';
 import 'validator.dart';
@@ -19,6 +21,8 @@ import 'ajax.dart';
  */
 @CustomTag('m-form')
 class Form extends DivElement with Polymer, Observable, Component {
+  
+  static final _logger = LoggerFactory.getLoggerFor(Form);
   
   /*************
    * Constants *
@@ -212,11 +216,11 @@ class Form extends DivElement with Polymer, Observable, Component {
    */
   void onSubmitHandler(Event e) {
     cancelEvent(e);
-    print('onSubmitHandler');
+    _logger.debug('onSubmitHandler');
     //
     if (isValid()) {
       var dataToSend = this.preparePostData();
-      print('Data to send $dataToSend');
+      _logger.debug('Data to send $dataToSend');
       
       // If URL is not specified do the standard action.
       if (url == null) {
@@ -290,7 +294,7 @@ class Form extends DivElement with Polymer, Observable, Component {
    */
   bool isValid() {
     for (Validator validator in validators) {
-      print('Validator is $validator');
+      _logger.debug('Validator is $validator');
       if (!validator.isValid()) {
         return false;
       }
