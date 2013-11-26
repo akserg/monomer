@@ -1,6 +1,11 @@
 Monomer Changes
 ===============
 
+** November 26, 2013
+
+* Created RadioButton component.
+* Added unit tests for RadioButton.
+
 ** November 25, 2013
 
 * Created Label and Checkbox components.
