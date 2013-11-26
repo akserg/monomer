@@ -4,15 +4,15 @@
 
 part of monomer_tests;
 
-void checkboxTests() {
+void checkBoxTests() {
   logMessage('Performing checkbox tests.');
 
   group('Testing checkbox:', () {
-    Checkbox checkbox;
+    CheckBox checkbox;
     var dataToSend = {'id':1, 'name':'Test Name'};
     
     setUp((){
-      checkbox = new Checkbox();
+      checkbox = new CheckBox();
       document.body.append(checkbox);
     });
     

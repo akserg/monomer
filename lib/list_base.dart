@@ -294,6 +294,9 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
       _logger.debug('onPropertyChange selectedItems: $selectedItems');
       callLater((){
         updateSelectedItems();
+        if (autoScrollToSelection) {
+          scrollSelectedIntoView();
+        }
         dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:value));
       });
     });
@@ -418,6 +421,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * Toggle selection of [data] item.
    */
   void toggleSelection(dynamic data) {
+    _logger.debug('toggleSelection ${data}');
     _logger.debug('allowMultipleSelection is $allowMultipleSelection');
     if (allowMultipleSelection) {
       if (selectedItems.contains(data)) {
@@ -425,12 +429,14 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
       } else {
         selectedItems.add(data);
       }
-    } else if (!selectedItems.contains(data)) {
-      selectedItems.clear();
-      selectedItems.add(data);
+    } else { 
+      if (!selectedItems.contains(data)) {
+        selectedItems.clear();
+        selectedItems.add(data);
+      }
     }
+    _logger.debug('toggleSelection selected ${selectedItems}');
     notifyPropertyChange(#selectedItems, null, selectedItems);
-    callLater(updateSelectedItems);
   }
   
   /**********

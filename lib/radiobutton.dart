@@ -89,7 +89,7 @@ class RadioButton extends SpanElement with Polymer, Observable, Component implem
   /**
    * Return reference on input element.
    */
-  InputElement get input => this.querySelector("#radiobutton");
+  InputElement get input => this.querySelector("#radio");
   
   /**********
    * Events *

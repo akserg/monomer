@@ -3,8 +3,8 @@ Monomer Changes
 
 ** November 26, 2013
 
-* Created RadioButton component.
-* Added unit tests for RadioButton.
+* Created RadioButton and RadioButtonGroup components.
+* Added unit tests for RadioButton and RadioButtonGroup.
 
 ** November 25, 2013
 

@@ -13,16 +13,16 @@ import 'item_renderer.dart';
 import 'component.dart';
 
 /**
- * The Checkbox component.
- * The Checkbox class can be used as item renderer. By default, the item renderer draws the checkbox and text associated with each 
+ * The CheckBox component.
+ * The CheckBox class can be used as item renderer. By default, the item renderer draws the checkbox and text associated with each 
  * item in the list.
  * 
  * You can override the default item renderer by creating a custom item renderer.
  */
 @CustomTag('m-checkbox')
-class Checkbox extends SpanElement with Polymer, Observable, Component implements ItemRenderer {
+class CheckBox extends SpanElement with Polymer, Observable, Component implements ItemRenderer {
   
-  static final _logger = LoggerFactory.getLoggerFor(Checkbox);
+  static final _logger = LoggerFactory.getLoggerFor(CheckBox);
   
   /*************
    * Constants *
@@ -82,13 +82,13 @@ class Checkbox extends SpanElement with Polymer, Observable, Component implement
   bool itemSelected = false;
   itemSelectedChanged(old) {
     _logger.debug('itemSelected is $itemSelected');
-    dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
+    //dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
   }
   
   /**
    * Return reference on input element.
    */
-  InputElement get input => this.querySelector("#checkbox");
+  Element get input => this.querySelector("#checkbox");
   
   /**********
    * Events *
@@ -126,13 +126,13 @@ class Checkbox extends SpanElement with Polymer, Observable, Component implement
   /**
    * Default factory constructor.
    */
-  factory Checkbox() {
+  factory CheckBox() {
     return new Element.tag('span', 'm-checkbox');
   }
   
   /**
-   * Constructor instantiated by the DOM when a Checkbox element has 
+   * Constructor instantiated by the DOM when a CheckBox element has 
    * been created.
    */
-  Checkbox.created() : super.created();
+  CheckBox.created() : super.created();
 }
