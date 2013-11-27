@@ -547,6 +547,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
         NodeBindExtension bindExt = nodeBind(renderer)
             ..bind('data', data, '');
         // Append new renderer to owner
+        _logger.debug('owner is $owner');
         owner.append(renderer);
         // Keep them until update or remove
         listItems[renderer] = bindExt;
