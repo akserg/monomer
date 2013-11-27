@@ -65,17 +65,17 @@ void listBaseTests() {
       Component.setIncludeInLayout(listBase, true);
     });
     
-    test('Do use ItemRenderer', () {
-      logMessage('Expect works with ItemRenderer');
-      
-      listBase.itemRenderer = 'span.m-label';
-      logMessage('Update dataProvider');
-      listBase.dataProvider = items;
-      // The duration of 1000ms is enought to take time to redraw our items. 
-      new Timer(new Duration(milliseconds:1000), expectAsync0((){
-        expect(listBase.listItems.length, 5, reason:'must be equals 5');
-      }));
-    });
+//    test('Do use ItemRenderer', () {
+//      logMessage('Expect works with ItemRenderer');
+//      
+//      listBase.itemRenderer = 'span.m-label';
+//      logMessage('Update dataProvider');
+//      listBase.dataProvider = items;
+//      // The duration of 1000ms is enought to take time to redraw our items. 
+//      new Timer(new Duration(milliseconds:1000), expectAsync0((){
+//        expect(listBase.listItems.length, 5, reason:'must be equals 5');
+//      }));
+//    });
     
     test('Do check itemIndex', () {
       logMessage('Expect correct itemIndex of data');
