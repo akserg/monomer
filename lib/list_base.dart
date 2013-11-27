@@ -79,30 +79,18 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    */
   @published
   String itemRenderer = "span.m-label";
-  itemRendererChanged(old) {
-    _logger.debug('itemRendererChanged $itemRenderer');
-    callLater(updateUI);
-  }
   
   /**
    * Style applying to each item renderer.
    */
   @published
   String itemRendererClass;
-  itemRendererClassChanged(old) {
-    _logger.debug('itemRendererClassChanged $itemRendererClass');
-    callLater(updateUI);
-  }
   
   /**
    * Style applying to each selected item renderer.
    */
   @published
   String itemRendererSelectedClass;
-  itemRendererSelectedClassChanged(old) {
-    _logger.debug('itemRendererSelectedClassChanged $itemRendererSelectedClass');
-    callLater(updateUI);
-  }
   
   /**
    * Map of NodeBindings.
@@ -305,7 +293,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
    * created.
    */
   ListBase.created() : super.created() {
-    onPropertyChange(this, #dataProvider, (){
+    onPropertyChange(this, #dataProvider, () {
       _logger.debug('onPropertyChange dataProvider: $dataProvider');
       // Remove selection and call updateListItems methods afterwords
       selectAll(false);
@@ -315,13 +303,25 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
         selectFirst();
       });
     });
-    onPropertyChange(this, #selectedItems, (){
+    onPropertyChange(this, #selectedItems, () {
       _logger.debug('onPropertyChange selectedItems: $selectedItems');
       updateListItems();
       if (autoScrollToSelection) {
         scrollSelectedIntoView();
       }
       dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:value));
+    });
+    onPropertyChange(this, #itemRenderer, () {
+      _logger.debug('itemRendererChanged $itemRenderer');
+      callLater(updateUI);
+    });
+    onPropertyChange(this, #itemRendererClass, () {
+      _logger.debug('itemRendererClassChanged $itemRendererClass');
+      callLater(updateUI);
+    });
+    onPropertyChange(this, #itemRendererSelectedClass, () {
+      _logger.debug('itemRendererSelectedClassChanged $itemRendererSelectedClass');
+      callLater(updateUI);
     });
   }
   

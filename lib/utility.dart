@@ -137,8 +137,48 @@ class Utility {
     }
     return null;
   }
+  
+  /**
+   * Sort [values] with [sortPath].
+   * The [sortPath] must has valuePath and optional [desc] or [asc] parameter.  
+   */
+  static List sort(List values, String sortPath) {
+    String valuePath;
+    bool desc = false;
+    //
+    List sorts = sortPath.split(' ');
+    sorts = sorts.takeWhile((String str) => str.trim().length > 0).toList();
+    if (sorts.length > 0) {
+      valuePath = sorts[0];
+      if (sorts.length > 1) {
+        desc = sorts[1].toLowerCase() == "desc";
+      }
+      //
+      values.sort(desc ? 
+          (a, b) => compareValues(b, a, valuePath) : 
+          (a, b) => compareValues(a, b, valuePath));
+    }
+    return values;
+  }
+  
+  /**
+   * Compare values of [a] and [b] folowing by [valuePath]. 
+   */
+  static int compareValues(a, b, String valuePath) {
+    var aValue = getValue(a, valuePath),
+        bValue = getValue(b, valuePath);
+    
+    if (aValue is Comparable) {
+      return aValue.compareTo(bValue);
+    } else if (aValue is bool) {
+      return aValue && aValue == bValue ? 0 : -1;
+    } else {
+      throw new Exception("Can not compare $a and $b");
+    }
+  }
 }
 
 String symbolAsString(Symbol symbol) => MirrorSystem.getName(symbol);
 
 Symbol stringAsSymbol(String string) => new Symbol(string);
+
