@@ -96,6 +96,6 @@ void main() {
   	test('Label', () => labelTests());
   	test('CheckBox', () => checkBoxTests());
   	test('RadioButton', () => radioButtonTests());
-  	//test('LinkButton', () => linkButtonTests());
+  	test('LinkButton', () => linkButtonTests());
   });
 }
