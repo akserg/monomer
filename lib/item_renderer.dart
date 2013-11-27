@@ -16,16 +16,11 @@ import 'component.dart';
  * The ItemRenderer defines the interface for components that have a [data]
  * property.
  */
-abstract class ItemRenderer implements Element, Component {
+abstract class ItemRenderer implements Component {
   
   /**************
    * PROPERTIES *
    **************/
-  
-  /**
-   * The data to render or edit.
-   */
-  dynamic data;
   
   /**
    * The String to display in the item renderer. 

@@ -40,6 +40,7 @@ import 'package:monomer/list_base.dart';
 import 'package:monomer/checkbox_group.dart';
 import 'package:monomer/radiobutton.dart';
 import 'package:monomer/radiobutton_group.dart';
+import 'package:monomer/link_button.dart';
 
 part 'mocks/ajax_mock.dart';
 
@@ -63,6 +64,7 @@ part 'tests/checkbox_tests.dart';
 part 'tests/checkbox_group_tests.dart';
 part 'tests/radiobutton_tests.dart';
 part 'tests/radiobutton_group_tests.dart';
+part 'tests/link_button_tests.dart';
 
 void main() {
   print('Running unit tests for Monomer library.');
@@ -94,5 +96,6 @@ void main() {
   	test('Label', () => labelTests());
   	test('CheckBox', () => checkBoxTests());
   	test('RadioButton', () => radioButtonTests());
+  	test('LinkButton', () => linkButtonTests());
   });
 }

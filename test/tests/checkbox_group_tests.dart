@@ -161,16 +161,19 @@ void checkBoxGroupTests() {
       expect(checkBoxGroup.selectedItems.length, equals(0), reason:'must be equals 0');
     });
  
-    test('Do check toggleSelection', () {
-      logMessage('Expect correct toggleSelection of data');
+    test('Do check select', () {
+      logMessage('Expect correct select of data');
       
       logMessage('Update dataProvider');
       checkBoxGroup.dataProvider = items;
       expect(checkBoxGroup.selectedItems.length, equals(0), reason:'must be equals 0');
-      checkBoxGroup.toggleSelection(items[2]);
+      checkBoxGroup.select(items[2], true);
       expect(checkBoxGroup.selectedItems.length, equals(1), reason:'must be equals 1');
-      checkBoxGroup.toggleSelection(items[2]);
+      checkBoxGroup.select(items[2], false);
       expect(checkBoxGroup.selectedItems.length, equals(0), reason:'must be equals 0');
+      checkBoxGroup.select(items[2], true);
+      checkBoxGroup.select(items[3], true);
+      expect(checkBoxGroup.selectedItems.length, equals(2), reason:'must be equals 2');
     });
 
     test('Do check value', () {

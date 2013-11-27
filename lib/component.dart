@@ -12,7 +12,7 @@ import "package:log4dart/log4dart.dart";
 /**
  * The base mixin class for the majority of user-interface objects. 
  */
-abstract class Component {
+abstract class Component implements Element {
 
   static final _logger = LoggerFactory.getLoggerFor(Component);
   
@@ -28,7 +28,16 @@ abstract class Component {
   static const String VALIDATE_EVENT = 'validate';
   static const String CHANGE_EVENT = 'change';
   static const String DATA_CHANGE_EVENT = 'dataChange';
+
+  /******** 
+   * Data *
+   ********/
   
+  /**
+   * Arbitrary information.
+   */
+  dynamic data;
+
   /**************
    * Visibility *
    **************/
@@ -172,6 +181,7 @@ abstract class Component {
     if (!queue.contains(function)) {
       // Add new one
       queue.add(function);
+      _logger.debug('callLater. Add to queue $function');
       // Run timer
       new Timer(duration, (){
         try {
@@ -185,7 +195,7 @@ abstract class Component {
         }
       });
     } else {
-      _logger.debug('Found function duplicate');
+      _logger.debug('callLater. Function in queue yet.');
     }
   }
   
@@ -216,13 +226,4 @@ abstract class Component {
      */
     e.stopPropagation();
   }
-  
-  /******** 
-   * Data *
-   ********/
-  
-  /**
-   * Arbitrary information.
-   */
-  dynamic data;
 }

@@ -64,8 +64,9 @@ class RadioButtonGroup extends ListBase with Polymer, Observable, Component {
   void onItemRendererChange(CustomEvent event) {
     _logger.debug('onItemRendererChange ${event.target} ${event.detail}');
     // We triggering events comes only from selected controls
-    if (event.target is Component && event.detail as bool) {
-      toggleSelection((event.target as Component).data);
+    if (event.target is ItemRenderer) {
+      ItemRenderer item = event.target as ItemRenderer;
+      select(item.data, item.itemSelected);
     }
   }
 }

@@ -2,27 +2,24 @@
 // https://github.com/akserg/monomer
 // All rights reserved.  Please see the LICENSE.md file.
 
-library monomer_checkbox;
+library monomer_link_button;
 
 import 'dart:html';
 
 import 'package:polymer/polymer.dart';
+import 'package:template_binding/template_binding.dart';
 import "package:log4dart/log4dart.dart";
 
 import 'item_renderer.dart';
 import 'component.dart';
 
 /**
- * The CheckBox component.
- * The CheckBox class can be used as item renderer. By default, the item renderer draws the checkbox and text associated with each 
- * item in the list.
- * 
- * You can override the default item renderer by creating a custom item renderer.
+ * Base class for all Action Buttons. 
  */
-@CustomTag('m-checkbox')
-class CheckBox extends SpanElement with Polymer, Observable, Component implements ItemRenderer {
+@CustomTag('m-link-button')
+class LinkButton extends AnchorElement with Polymer, Observable, Component implements ItemRenderer {
   
-  static final _logger = LoggerFactory.getLoggerFor(CheckBox);
+  static final _logger = LoggerFactory.getLoggerFor(LinkButton);
   
   /*************
    * Constants *
@@ -57,6 +54,8 @@ class CheckBox extends SpanElement with Polymer, Observable, Component implement
    * Properties *
    **************/
   
+  bool get applyAuthorStyles => true;
+  
   /**
    * The data to render or edit.
    */
@@ -84,12 +83,6 @@ class CheckBox extends SpanElement with Polymer, Observable, Component implement
     _logger.debug('itemSelected is $itemSelected');
     dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
   }
-  
-  /**
-   * Return reference on input element.
-   */
-  Element get input => this.querySelector("#checkbox");
-  
   /**********
    * Events *
    **********/
@@ -126,13 +119,33 @@ class CheckBox extends SpanElement with Polymer, Observable, Component implement
   /**
    * Default factory constructor.
    */
-  factory CheckBox() {
-    return new Element.tag('span', 'm-checkbox');
+  factory LinkButton() {
+    return new Element.tag('a', 'm-link-button');
   }
   
   /**
-   * Constructor instantiated by the DOM when a CheckBox element has 
-   * been created.
+   * Constructor instantiated by the DOM when a LinkButton element has been 
+   * created.
    */
-  CheckBox.created() : super.created();
+  LinkButton.created():super.created() {
+    // Add double way binding to 'checked' property of button to 'itemSelected'
+    nodeBind(this).bind('checked', this, 'itemSelected');
+    // Listen click event to do the action
+    onClick.listen(onClickHandler);
+  }
+
+  /***********
+   * Methods *
+   ***********/
+  
+  /**
+   * Click handler to do the action with optional data.
+   * This method prevents 'click' event dispatching further.
+   */
+  void onClickHandler(Event e) {
+    cancelEvent(e);
+    _logger.debug("Action on LinkButton with $data");
+    itemSelected = !itemSelected;
+    dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:data));
+  }
 }

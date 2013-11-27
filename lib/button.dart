@@ -7,15 +7,17 @@ library monomer_button;
 import 'dart:html';
 
 import 'package:polymer/polymer.dart';
+import 'package:template_binding/template_binding.dart';
 import "package:log4dart/log4dart.dart";
 
+import 'item_renderer.dart';
 import 'component.dart';
 
 /**
  * Base class for all Action Buttons. 
  */
 @CustomTag('m-button')
-class Button extends ButtonElement with Polymer, Observable, Component {
+class Button extends ButtonElement with Polymer, Observable, Component implements ItemRenderer {
   
   static final _logger = LoggerFactory.getLoggerFor(Button);
   
@@ -38,6 +40,16 @@ class Button extends ButtonElement with Polymer, Observable, Component {
    */
   static const EventStreamProvider<Event> _includeInLayoutEvent = const EventStreamProvider<Event>(Component.INCLUDE_IN_LAYOUT_EVENT);
   
+  /**
+   * Provider of 'change' events.
+   */
+  static const EventStreamProvider<Event> _changeEvent = const EventStreamProvider<Event>(Component.CHANGE_EVENT);
+  
+  /**
+   * Provider of 'dataChange' events.
+   */
+  static const EventStreamProvider<Event> _dataChangeEvent = const EventStreamProvider<Event>(Component.DATA_CHANGE_EVENT);
+  
   /**************
    * Properties *
    **************/
@@ -45,11 +57,32 @@ class Button extends ButtonElement with Polymer, Observable, Component {
   bool get applyAuthorStyles => true;
   
   /**
-   * Arbitrary information stored in Button.
+   * The data to render or edit.
    */
   @published
   dynamic data;
+  dataChanged(old) {
+    _logger.debug('data changed $old to $data');
+    dispatchEvent(new CustomEvent(Component.DATA_CHANGE_EVENT, detail:data));
+  }
   
+  /**
+   * The String to display in the item renderer. 
+   * The host component of the item renderer can use the [itemToLabel] method 
+   * to convert the data item to a String for display by the item renderer.
+   */
+  @published
+  String label;
+  
+  /**
+   * Will equals true if rendering item is selected.
+   */
+  @published
+  bool itemSelected = false;
+  itemSelectedChanged(old) {
+    _logger.debug('itemSelected is $itemSelected');
+    dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:itemSelected));
+  }
   /**********
    * Events *
    **********/
@@ -69,6 +102,15 @@ class Button extends ButtonElement with Polymer, Observable, Component {
    */
   ElementStream<Event> get onIncludeInLayout => _includeInLayoutEvent.forElement(this);
   
+  /**
+   * Stream of 'change' events handled by this element.
+   */
+  ElementStream<Event> get onChange => _changeEvent.forElement(this);
+  
+  /**
+   * Stream of 'dataChange' events handled by this element.
+   */
+  ElementStream<Event> get onDataChange => _dataChangeEvent.forElement(this);
   
   /******************
    * Initialisation *
@@ -86,6 +128,8 @@ class Button extends ButtonElement with Polymer, Observable, Component {
    * created.
    */
   Button.created():super.created() {
+    // Add double way binding to 'checked' property of button to 'itemSelected'
+    nodeBind(this).bind('checked', this, 'itemSelected');
     // Listen click event to do the action
     onClick.listen(onClickHandler);
   }
@@ -101,6 +145,7 @@ class Button extends ButtonElement with Polymer, Observable, Component {
   void onClickHandler(Event e) {
     cancelEvent(e);
     _logger.debug("Action on Button with $data");
+    itemSelected = !itemSelected;
     dispatchEvent(new CustomEvent(Component.ACTION_EVENT, detail:data));
   }
 }

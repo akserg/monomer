@@ -85,6 +85,26 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   }
   
   /**
+   * Style applying to each item renderer.
+   */
+  @published
+  String itemRendererClass;
+  itemRendererClassChanged(old) {
+    _logger.debug('itemRendererClassChanged $itemRendererClass');
+    callLater(updateUI);
+  }
+  
+  /**
+   * Style applying to each selected item renderer.
+   */
+  @published
+  String itemRendererSelectedClass;
+  itemRendererSelectedClassChanged(old) {
+    _logger.debug('itemRendererSelectedClassChanged $itemRendererSelectedClass');
+    callLater(updateUI);
+  }
+  
+  /**
    * Map of NodeBindings.
    */
   Map<ItemRenderer, NodeBindExtension> listItems = {};
@@ -134,6 +154,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   /**
    * Separator used to split data before send to string
    */
+  @published
   String valueSeparator;
 
   /**
@@ -159,7 +180,8 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     if (item != null) {
       selectedItems.add(item);
     }
-    callLater(updateSelectedItems);
+    notifyPropertyChange(#selectedItems, null, selectedItems);
+    callLater(updateListItems);
   }
   
   /**
@@ -175,7 +197,6 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   void set selectedIndex(int index) {
     if (index >= 0 && index < dataProvider.length) {
       selectedItem = dataProvider[index];
-      callLater(updateSelectedItems);
     } else if (index == -1) {
       selectedItem = null;
     } else {
@@ -229,8 +250,9 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
         result = [v];
       }
       selectedItems.addAll(Utility.intersect(dataItems, valuePath, result));
-      callLater(updateSelectedItems);
+      callLater(updateListItems);
     }
+    notifyPropertyChange(#selectedItems, null, selectedItems);
   }
   
   /**********
@@ -285,20 +307,21 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   ListBase.created() : super.created() {
     onPropertyChange(this, #dataProvider, (){
       _logger.debug('onPropertyChange dataProvider: $dataProvider');
-      // Remove selection and call updateSelectedItems methods afterwords
+      // Remove selection and call updateListItems methods afterwords
       selectAll(false);
       // Redraw UI
-      callLater(updateUI);
+      callLater(() {
+        updateUI();
+        selectFirst();
+      });
     });
     onPropertyChange(this, #selectedItems, (){
       _logger.debug('onPropertyChange selectedItems: $selectedItems');
-      callLater((){
-        updateSelectedItems();
-        if (autoScrollToSelection) {
-          scrollSelectedIntoView();
-        }
-        dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:value));
-      });
+      updateListItems();
+      if (autoScrollToSelection) {
+        scrollSelectedIntoView();
+      }
+      dispatchEvent(new CustomEvent(Component.CHANGE_EVENT, detail:value));
     });
   }
   
@@ -396,7 +419,8 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     if (value && dataProvider != null) {
       selectedItems.addAll(dataProvider);
     }
-    callLater(updateSelectedItems);
+    callLater(updateListItems);
+    notifyPropertyChange(#selectedItems, null, selectedItems);
   }
   
   
@@ -407,7 +431,7 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     // do not scroll for first auto select 
     if (allowSelectFirst && selectedIndex == 0)
       return;
-    // Move through item renderers and select first selected
+    // Scroll first selected item into view.
     listItems.keys.firstWhere((ItemRenderer renderer){
       if (renderer.itemSelected) {
         renderer.scrollIntoView();
@@ -417,26 +441,39 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     });
   }
   
+  
   /**
-   * Toggle selection of [data] item.
+   * Select [data] depends on [value].
    */
-  void toggleSelection(dynamic data) {
-    _logger.debug('toggleSelection ${data}');
-    _logger.debug('allowMultipleSelection is $allowMultipleSelection');
+  void select(dynamic data, bool value) {
+    _logger.debug('select ${data}');
     if (allowMultipleSelection) {
-      if (selectedItems.contains(data)) {
+      _logger.debug('allowMultipleSelection is $allowMultipleSelection');
+      if (selectedItems.contains(data) && !value) {
+        _logger.debug('Remove Selection ${data}');
         selectedItems.remove(data);
-      } else {
+        notifyPropertyChange(#selectedItems, null, selectedItems);
+      } else if (!selectedItems.contains(data) && value) {
+        _logger.debug('Add Selection ${data}');
         selectedItems.add(data);
+        notifyPropertyChange(#selectedItems, null, selectedItems);
       }
-    } else { 
-      if (!selectedItems.contains(data)) {
-        selectedItems.clear();
-        selectedItems.add(data);
-      }
+    } else if (!selectedItems.contains(data) && value) {
+      _logger.debug('Add Selection ${data}');
+      selectedItems.clear();
+      selectedItems.add(data);
+      notifyPropertyChange(#selectedItems, null, selectedItems);
     }
-    _logger.debug('toggleSelection selected ${selectedItems}');
-    notifyPropertyChange(#selectedItems, null, selectedItems);
+  }
+  
+  /**
+   * Select first item if [allowSelectFirst] equals true. 
+   */
+  void selectFirst() {
+    if (allowSelectFirst && dataProvider.length > 0) {
+      _logger.debug('selectFirst accepted');
+      selectedIndex = 0;
+    }
   }
   
   /**********
@@ -446,17 +483,33 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   /**
    * Convinience method to update state of each item renderer. 
    */
-  void updateSelectedItems() {
+  void updateListItems() {
     listItems.forEach((ItemRenderer renderer, NodeBindExtension nodeBind){
-      updateItem(renderer);
+      updateItemState(renderer);
+      updateItemStyle(renderer);
     });
   }
   
   /**
    * Update state of [item].
    */
-  void updateItem(ItemRenderer item) {
+  void updateItemState(ItemRenderer item) {
     item.itemSelected = isSelected(item.data);
+    _logger.debug('updateItemState. ${item.itemSelected} of ${item.data}');
+  }
+  
+  /**
+   * Update style of [item].
+   */
+  void updateItemStyle(ItemRenderer item) {
+    if (item.itemSelected && itemRendererSelectedClass != null) {
+      item.className = itemRendererSelectedClass;
+    } else if (itemRendererClass != null) {
+      item.className = itemRendererClass;
+    } else {
+      item.className = "";
+    }
+    _logger.debug('updateItemStyle. ${item.className} of ${item.data}');
   }
   
   /**
@@ -487,7 +540,6 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
   void addUIItems() {
     if (itemRenderer != null) {
       dataProvider.forEach((data){
-        //
         _logger.debug('updateUI.render $data');
         // Instantiate [itemRenderer]
         ItemRenderer renderer = instantiateItemRenderer();
@@ -517,6 +569,9 @@ class ListBase extends DivElement with Polymer, Observable, Component implements
     } else {
       _logger.debug('ItemRenderer is $itemRenderer');
       renderer = new Element.tag(itemRenderer);
+    }
+    if (itemRendererClass != null) {
+      renderer.className = itemRendererClass;
     }
     renderer.onDataChange.listen((CustomEvent event){
       ItemRenderer item = event.target;

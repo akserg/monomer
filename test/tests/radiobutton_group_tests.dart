@@ -161,16 +161,19 @@ void radioButtonGroupTests() {
       expect(radioButtonGroup.selectedItems.length, equals(0), reason:'must be equals 0');
     });
  
-    test('Do check toggleSelection', () {
-      logMessage('Expect correct toggleSelection of data');
+    test('Do check select', () {
+      logMessage('Expect correct v of data');
       
       logMessage('Update dataProvider');
       radioButtonGroup.dataProvider = items;
       expect(radioButtonGroup.selectedItems.length, equals(0), reason:'must be equals 0');
-      radioButtonGroup.toggleSelection(items[2]);
+      radioButtonGroup.select(items[2], true);
       expect(radioButtonGroup.selectedItems.length, equals(1), reason:'must be equals 1');
-      radioButtonGroup.toggleSelection(items[2]);
+      radioButtonGroup.select(items[2], false);
       expect(radioButtonGroup.selectedItems.length, equals(1), reason:'must be equals 1');
+      radioButtonGroup.select(items[3], true);
+      expect(radioButtonGroup.selectedItems.length, equals(1), reason:'must be equals 1');
+      expect(radioButtonGroup.selectedItems[0], equals(items[3]), reason:'must be equals items 3');
     });
 
     test('Do check value', () {

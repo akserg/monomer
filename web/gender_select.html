@@ -6,11 +6,16 @@ All rights reserved.  Please see the LICENSE.md file.
 -->
 
 <link rel="import" href="packages/monomer/radiobutton_group.html">
+<link rel="import" href="packages/monomer/button.html">
 
 <polymer-element name="e-gender-select" extends="div">
   <template>
-    <div is="m-radiobutton-group" 
+    <div is="m-radiobutton-group" allowSelectFirst="true"
           dataProvider="{{genders}}"
+          class="btn-group"
+          itemRenderer="button.m-button"
+          itemRendererClass="btn btn-default"
+          itemRendererSelectedClass="btn btn-default active"
           on-change="{{onGenderSelected}}"></div>
   </template>
   <script type="application/dart" src="gender_select.dart"></script>

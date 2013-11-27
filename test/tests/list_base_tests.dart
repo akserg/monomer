@@ -180,29 +180,35 @@ void listBaseTests() {
       expect(listBase.selectedItems.length, equals(0), reason:'must be equals 0');
     });
  
-    test('Do check toggleSelection', () {
-      logMessage('Expect correct toggleSelection of data');
+    test('Do check select', () {
+      logMessage('Expect correct select of data');
       
       logMessage('Update dataProvider');
       listBase.dataProvider = items;
       expect(listBase.selectedItems.length, equals(0), reason:'must be equals 0');
-      listBase.toggleSelection(items[2]);
+      listBase.select(items[2], true);
       expect(listBase.selectedItems.length, equals(1), reason:'must be equals 1');
-      listBase.toggleSelection(items[2]);
+      listBase.select(items[2], false);
       expect(listBase.selectedItems.length, equals(1), reason:'must be equals 1');
+      listBase.select(items[3], true);
+      expect(listBase.selectedItems.length, equals(1), reason:'must be equals 1');
+      expect(listBase.selectedItems[0], equals(items[3]), reason:'must be equals items 3');
     });
     
-    test('Do check toggleSelection with allowMultipleSelection', () {
-      logMessage('Expect correct toggleSelection of data with allowMultipleSelection');
+    test('Do check select with allowMultipleSelection', () {
+      logMessage('Expect correct select of data with allowMultipleSelection');
       
       logMessage('Update dataProvider');
       listBase.dataProvider = items;
       listBase.allowMultipleSelection = true;
       expect(listBase.selectedItems.length, equals(0), reason:'must be equals 0');
-      listBase.toggleSelection(items[2]);
+      listBase.select(items[2], true);
       expect(listBase.selectedItems.length, equals(1), reason:'must be equals 1');
-      listBase.toggleSelection(items[2]);
+      listBase.select(items[2], false);
       expect(listBase.selectedItems.length, equals(0), reason:'must be equals 0');
+      listBase.select(items[2], true);
+      listBase.select(items[3], true);
+      expect(listBase.selectedItems.length, equals(2), reason:'must be equals 2');
     });
 
     test('Do check value', () {

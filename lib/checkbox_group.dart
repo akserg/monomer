@@ -63,8 +63,9 @@ class CheckBoxGroup extends ListBase with Polymer, Observable, Component {
    */
   void onItemRendererChange(CustomEvent event) {
     _logger.debug('onItemRendererChange $event');
-    if (event.target is Component) {
-      toggleSelection((event.target as Component).data);
+    if (event.target is ItemRenderer) {
+      ItemRenderer item = event.target as ItemRenderer;
+      select(item.data, item.itemSelected);
     }
   }
 }
