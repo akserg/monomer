@@ -73,6 +73,24 @@
 <li>Fetchs the data received and updates the fields as necessary;</li>
 </ul><p>Form component does not manage the layout of form items and does not change their styles.</p>
 
+<h3>
+<a name="listbase" class="anchor" href="#listbase"><span class="octicon octicon-link"></span></a>ListBase</h3>
+
+<p>ListBase is base class for all multi item components such as ComboBox, ListBox etc. It basically provides multi items management and provides item rendering mechanism for render children. Each child is associated with one item in items array. ListBase provides selection mechanism including property value selection.
+ListBase does not provide any styles for children, it only provides logic for items manipulation
+such as filter, sort, collection change notification and updates.</p>
+
+<h3>
+<a name="checkboxgroup" class="anchor" href="#checkboxgroup"><span class="octicon octicon-link"></span></a>CheckBoxGroup</h3>
+
+<p>CheckBoxGroup is inherited from ListBase component. By default it allows multiple selection and
+automatically provides comma separated values as value property. CheckBox component is default item renderer for CheckBoxGroup.</p>
+
+<h3>
+<a name="radioboxgroup" class="anchor" href="#radioboxgroup"><span class="octicon octicon-link"></span></a>RadioBoxGroup</h3>
+
+<p>RadioBoxGroup component is inherited from ListBase. By default it allows single item selection and uses RadioButton component as default item renderer.</p>
+
 <h2>
 <a name="fork-the-monomer" class="anchor" href="#fork-the-monomer"><span class="octicon octicon-link"></span></a>Fork the Monomer</h2>
 
