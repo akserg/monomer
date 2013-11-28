@@ -1,7 +1,7 @@
 Monomer Changes
 ===============
 
-### Release 0.3, In progress
+### Release 0.3, November 28, 2013
 
 - Created LinkButton component.
 - Created RadioButton and RadioButtonGroup components.
