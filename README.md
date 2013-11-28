@@ -1,8 +1,4 @@
-Monomer  [![Build Status](https://drone.io/github.com/akserg/monomer/status.png)](https://drone.io/github.com/akserg/monomer/latest)
-=============
-
-* [Home](http://monomer.akserg.com)
-* [Issues](https://github.com/akserg/monomer/issues)
+[![Build Status](https://drone.io/github.com/akserg/monomer/status.png)](https://drone.io/github.com/akserg/monomer/latest)
 
 ##What is a Monomer?
 The world has changed and now the components are used everywhere. Monomer is no exception. It is based on a component model of development implemented in Polymer. Monomer is a set of loosely coupled components with each other. This allows using only the required components in the development and reduce the size of the final web application. Monomer contains no specific styles, which will allow developers to use their own styles without restrictions and conflicts between them. 
@@ -27,6 +23,18 @@ The form is one of the most used components to obtain information from the user.
 
 Form component does not manage the layout of form items and does not change their styles.
 
+###ListBase
+ListBase is base class for all multi item components such as ComboBox, ListBox etc. It basically provides multi items management and provides item rendering mechanism for render children. Each child is associated with one item in items array. ListBase provides selection mechanism including property value selection.
+ListBase does not provide any styles for children, it only provides logic for items manipulation
+such as filter, sort, collection change notification and updates.
+
+###CheckBoxGroup
+CheckBoxGroup is inherited from ListBase component. By default it allows multiple selection and
+automatically provides comma separated values as value property. CheckBox component is default item renderer for CheckBoxGroup.
+
+###RadioBoxGroup
+RadioBoxGroup component is inherited from ListBase. By default it allows single item selection and uses RadioButton component as default item renderer.
+
 ##Fork the Monomer
 If you'd like to contribute back to the core, you can fork this repository and send a pull request to me, when it is ready.
 
@@ -34,4 +42,4 @@ If you are new to Git or GitHub, please read this [guide](https://help.github.co
 
 ##License
 
-Copyright (c) 2013 Sergey Akopkokhyants Licensed under the Apache 2.0 License. 
+Copyright (c) 2013 Sergey Akopkokhyants Licensed under the Apache 2.0 License.
